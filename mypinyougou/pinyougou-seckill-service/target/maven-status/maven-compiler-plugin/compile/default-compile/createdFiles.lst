@@ -1,6 +1,0 @@
-com\pinyougou\seckill\service\impl\SeckillOrderServiceImpl.class
-com\pinyougou\seckill\service\impl\SeckillGoodsServiceImpl.class
-com\pinyougou\seckill\thread\CreateOrderThread.class
-com\pinyougou\seckill\pojo\SeckillStatus.class
-com\pinyougou\seckill\listener\PageMessageListener.class
-com\pinyougou\seckill\listener\DelayMessageListener.class
