@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="Test-CAS-security-demo:war">
+    <output-path>$PROJECT_DIR$/Test-CAS-security-demo/target</output-path>
+    <root id="archive" name="Test-CAS-security-demo.war">
+      <element id="artifact" artifact-name="Test-CAS-security-demo:war exploded" />
+    </root>
+  </artifact>
+</component>
