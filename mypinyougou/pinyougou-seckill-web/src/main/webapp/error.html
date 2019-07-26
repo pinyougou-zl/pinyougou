@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>错误页面</title>
+</head>
+<body>
+
+    <script>
+        window.onload = function () {
+            alert("该用户已被冻结，请重新登录");
+            window.location.href="http://localhost:9400/cas/logout?service=http://localhost:9111/seckill-index.html";
+        }
+    </script>
+</body>
+</html>
