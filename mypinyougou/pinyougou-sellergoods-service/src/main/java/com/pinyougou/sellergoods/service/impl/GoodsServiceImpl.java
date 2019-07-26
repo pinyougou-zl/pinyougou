@@ -318,7 +318,7 @@ public class GoodsServiceImpl extends CoreServiceImpl<TbGoods>  implements Goods
         Example example = new Example(TbGoods.class);
         Example.Criteria criteria = example.createCriteria();
         //逻辑删除的不查询,
-		 criteria.andEqualTo("isDelete",false);
+		criteria.andEqualTo("isDelete",false);
 
         if(goods!=null){			
 						if(StringUtils.isNotBlank(goods.getSellerId())){

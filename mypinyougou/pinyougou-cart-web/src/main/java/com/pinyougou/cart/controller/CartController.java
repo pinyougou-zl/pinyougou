@@ -35,45 +35,43 @@ public class CartController {
     @RequestMapping("/findCartList")
     public List<Cart> findCartList(HttpServletRequest request,HttpServletResponse response) {
         //获取用户名
-        String name = SecurityContextHolder.getContext().getAuthentication().getName();
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
         //由于在配置文件中配置了匿名访问，所以可以匿名，名字为anonymousUser
-        if("anonymousUser".equals(name)) {
-            //表示未登录是匿名用户
-            //从cookie中查询购物车列表
-            String castListString = CookieUtil.getCookieValue(request, "cartList", true);
-            //如果没有置为空
-            if( StringUtils.isEmpty(castListString) ) {
-                castListString = "[]";
+        if ("anonymousUser".equals(username)) {
+            //匿名用户，说明没有登录，将数据保存进cookie
+            String cartListString = CookieUtil.getCookieValue(request, "cartList", true);
+            if (StringUtils.isEmpty(cartListString)) {
+                cartListString = "[]";
             }
-            //如果有直接转换成集合，返回
-            List<Cart> carts = JSON.parseArray(castListString, Cart.class);
-            System.out.println("cookie"+carts);
-            return carts;
+            List<Cart> cookieCartList = JSON.parseArray(cartListString, Cart.class);
+            return cookieCartList;
         }else {
-            //已登录
-            //从redis中取出数据
-            List<Cart> cartListFromRedis = cartService.findCartListFromRedis(name);
-
-            //合并购物车的数据
-            //1.获取cookie中的购物车的数据
-            String cartListstring = CookieUtil.getCookieValue(request, "cartList", "UTF-8");
-            if(StringUtils.isEmpty(cartListstring)) {
-                cartListstring = "[]";
+            //已登录，将数据保存到Redis
+            List<Cart> cartListFromRedis = cartService.findCartListFromRedis(username);
+            if (cartListFromRedis == null) {
+                //没有数据,返回一个新的集合
+                return new ArrayList<>();
+            }else {
+                //有数据，查询Cookie中的数据，合并
+                String cartListString = CookieUtil.getCookieValue(request, "cartList", "UTF-8");
+                if (StringUtils.isEmpty(cartListString)) {
+                    //为空时赋初值
+                    cartListString = "[]";
+                }
+                //不为空，将字符串转成对象
+                List<Cart> cookieCartList = JSON.parseArray(cartListString, Cart.class);
+                if(cookieCartList.size()>0) {
+                    //redis中购物车有数据
+                    //合并
+                    List<Cart> carts = cartService.mergeCartList(cookieCartList, cartListFromRedis);
+                    //保存进Redis
+                    cartService.saveCartListToRedis(username, carts);
+                    //移除Cookie
+                    CookieUtil.deleteCookie(request, response, "cartList");
+                    return carts;
+                }
+                return cartListFromRedis;
             }
-            List<Cart> carts = JSON.parseArray(cartListstring, Cart.class);
-
-            //2、获取redis中的购物车数据
-            if(cartListFromRedis == null) {
-                cartListFromRedis = new ArrayList<>();
-            }
-            //3、进行合并,返回一个最新的购物车数据
-            List<Cart> cartsnew = cartService.mergeCartList(carts, cartListFromRedis);
-            //4、将最新的数据重新设置会redis中
-            cartService.saveCartListToRedis(name,cartsnew);
-            //5、cookie中的购物车清除
-            CookieUtil.deleteCookie(request,response,"cartList");
-            //返回最新
-            return cartsnew;
         }
     }
 
@@ -92,9 +90,8 @@ public class CartController {
                                      HttpServletResponse response) {
         try {
             //解决跨域的方案，CORS,就是允许该域访问购物车，
-            response.setHeader("Access-Control-Allow-Origin","http://localhost:9105");
-            response.setHeader("Access-Control-Allow-Credentials","true");  //同时携带cookie
-
+            //response.setHeader("Access-Control-Allow-Origin","http://localhost:9105");
+            //response.setHeader("Access-Control-Allow-Credentials","true");  //同时携带cookie
 
             //获取用户名
             String name = SecurityContextHolder.getContext().getAuthentication().getName();

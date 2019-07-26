@@ -104,7 +104,11 @@ public class CartServiceImpl implements CartService {
      */
     @Override
     public List<Cart> findCartListFromRedis(String username) {
-        return (List<Cart>) redisTemplate.boundHashOps("cartList").get(username);
+        List<Cart> cartList = (List<Cart>) redisTemplate.boundHashOps("cartList").get(username);
+        if (cartList == null) {
+            cartList = new ArrayList<>();
+        }
+        return cartList;
     }
 
     /**

@@ -48,5 +48,9 @@
     <import resource="spring-security.xml"></import>
     <mvc:default-servlet-handler></mvc:default-servlet-handler>
 
+    <!--跨域请求-->
+    <mvc:cors>
+        <mvc:mapping path="/cart/**" allowed-origins="http://localhost:9105" allow-credentials="true"/>
+    </mvc:cors>
 
 </beans>
