@@ -1,8 +1,0 @@
-<component name="ArtifactManager">
-  <artifact type="war" name="pniyougou-search-service:war">
-    <output-path>$PROJECT_DIR$/pniyougou-search-service/target</output-path>
-    <root id="archive" name="pniyougou-search-service.war">
-      <element id="artifact" artifact-name="pniyougou-search-service:war exploded" />
-    </root>
-  </artifact>
-</component>
