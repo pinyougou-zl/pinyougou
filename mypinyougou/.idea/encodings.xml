@@ -42,6 +42,7 @@
     <file url="file://$PROJECT_DIR$/pinyougou-user-web" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/pniyougou-search-service" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/test-freemarker-demo" charset="UTF-8" />
+    <file url="file://E:/JAVAEE Studying/IDEA WrokSpace/pinyougou/pinyougou-parent/pinyougou-cart-service/src/main/resources/properties/db.properties" charset="UTF-8" />
     <file url="PROJECT" charset="UTF-8" />
   </component>
 </project>

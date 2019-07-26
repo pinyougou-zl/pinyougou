@@ -13,6 +13,7 @@
             axios.post('/user/search.shtml?pageNo='+curPage,this.searchEntity).then(function (response) {
                 //获取数据
                 app.list=response.data.list;
+                alert(response.data.list[0].lastLoginTime);
                 //当前页
                 app.pageNo=curPage;
                 //总页数
