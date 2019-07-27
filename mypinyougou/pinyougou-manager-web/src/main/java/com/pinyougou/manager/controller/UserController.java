@@ -104,5 +104,14 @@ public class UserController {
                                      @RequestBody TbUser user) {
         return userService.findPage(pageNo, pageSize, user);
     }
+
+
+    @RequestMapping("/findByStatus")
+	public PageInfo<TbUser> findByStatus(@RequestParam(value = "pageNo", defaultValue = "1", required = true) Integer pageNo,
+										 @RequestParam(value = "pageSize", defaultValue = "10", required = true) Integer pageSize,
+										 @RequestParam(value = "status",required = false) String status){
+		PageInfo<TbUser> pageInfo = userService.findByStatus(pageNo, pageSize, status);
+		return pageInfo;
+	}
 	
 }

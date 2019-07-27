@@ -28,5 +28,6 @@ public interface UserService extends CoreService<TbUser> {
 	 * @return
 	 */
 	PageInfo<TbUser> findPage(Integer pageNo, Integer pageSize, TbUser User);
-	
+
+	PageInfo<TbUser> findByStatus(Integer pageNo, Integer pageSize,String status);
 }

@@ -121,5 +121,18 @@ public class UserServiceImpl extends CoreServiceImpl<TbUser> implements UserServ
 
         return pageInfo;
     }
-	
+
+    @Override
+    public PageInfo<TbUser> findByStatus(Integer pageNo, Integer pageSize,String status) {
+		TbUser tbUser = new TbUser();
+		tbUser.setStatus(status);
+		PageHelper.startPage(pageNo, pageSize);
+		List<TbUser> userList = userMapper.select(tbUser);
+		PageInfo<TbUser> info = new PageInfo<>(userList);
+		//序列化再反序列化
+		String s = JSON.toJSONString(info);
+		PageInfo<TbUser> pageInfo = JSON.parseObject(s, PageInfo.class);
+		return pageInfo;
+    }
+
 }

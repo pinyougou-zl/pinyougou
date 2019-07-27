@@ -6,14 +6,15 @@
         list:[],
         entity:{},
         ids:[],
-        searchEntity:{}
+        searchEntity:{},
+        status:'Y'
     },
     methods: {
         searchList:function (curPage) {
             axios.post('/user/search.shtml?pageNo='+curPage,this.searchEntity).then(function (response) {
                 //获取数据
                 app.list=response.data.list;
-                alert(response.data.list[0].lastLoginTime);
+
                 //当前页
                 app.pageNo=curPage;
                 //总页数
@@ -92,7 +93,30 @@
                 console.log("1231312131321");
             });
         },
-
+        //将日期转换成正常格式
+        formatDateToStr:function (date) {
+            var _time=new Date(date);
+            var   year=_time.getFullYear();//2017
+            var   month=_time.getMonth()+1;//7
+            var   date=_time.getDate();//10
+            var   hour=_time.getHours();//10
+            var   minute=_time.getMinutes();//56
+            var   second=_time.getSeconds();//15
+            return   year+"年"+month+"月"+date+"日   "+hour+":"+minute+":"+second;//这里自己按自己需要的格式拼接
+        },
+        //根据状态查询用户
+        findByStatus:function (curPage,status) {
+            app.status=status;
+            axios('/user/findByStatus.shtml?pageNo='+curPage+'&status='+status).then(
+                function (response) {//response.data=pageinfo
+                    app.list=response.data.list;
+                    //当前页
+                    app.pageNo=curPage;
+                    //总页数
+                    app.pages=response.data.pages;
+                }
+            )
+        }
 
 
 

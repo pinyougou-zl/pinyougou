@@ -57,13 +57,10 @@
         </div>
         <div class="box-tools pull-right">
             <div class="has-feedback">
-                {{searchEntity}}
-                <select>
-                    <option v-model="searchEntity.status">1</option>
-                    <option v-model="searchEntity.status">2</option>
-                </select>
-                <button class="btn btn-default" @click="searchList(1)">只显示有效用户</button>
+                <input type="hidden" >
+                <button class="btn btn-default" v-model="searchEntity.status='Y'" @click="searchList(1)">只显示有效用户</button>
             </div>
+            <button class="btn btn-default" v-model="searchEntity.status='N'" @click="searchList(1)">只显示无效用户</button>
         </div>
         <!--工具栏/-->
 
@@ -88,13 +85,13 @@
                 <td>{{user.username}}</td>
                 <td>{{user.phone}}</td>
                 <td>{{user.email}}</td>
-                <td>{{user.created}}</td>
+                <td>{{formatDateToStr(user.created)}}</td>
                 <td>
                     <span v-if="user.status=='Y'">有效</span>
                     <span v-if="user.status=='N'">已冻结</span>
                 </td>
                 <td>
-                    {{user.lastLoginTime}}
+                    {{formatDateToStr(user.lastLoginTime)}}
                 </td>
             </tr>
             </tbody>
