@@ -1,8 +1,11 @@
 package com.pinyougou.sellergoods.service;
 
+import com.entity.OrderItems;
 import com.github.pagehelper.PageInfo;
 import com.pinyougou.core.service.CoreService;
 import com.pinyougou.pojo.TbOrder;
+
+import java.util.List;
 
 /**
  * 服务层接口
@@ -10,9 +13,9 @@ import com.pinyougou.pojo.TbOrder;
  *
  */
 public interface OrderService extends CoreService<TbOrder> {
-	
-	
-	
+
+	public List<OrderItems> findOrderItems();
+
 	/**
 	 * 返回分页列表
 	 * @return
