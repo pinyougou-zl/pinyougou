@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+    <!--单机版配置，也就是没有集群,里面注入redis地址和端口-->
+    <bean id="standaloneConfig" class="org.springframework.data.redis.connection.RedisStandaloneConfiguration">
+        <property name="hostName" value="192.168.25.133">
+        </property>
+        <property name="port" value="6379"></property>
+    </bean>
+    <!--配置连接工厂，创建连接对象，用于连接redis-->
+    <bean id="connectionFactory" class="org.springframework.data.redis.connection.jedis.JedisConnectionFactory">
+        <constructor-arg name="standaloneConfig" ref="standaloneConfig"></constructor-arg>
+    </bean>
+
+    <!--redisTemplate  操作redis的核心类，类似jdbcTemplate-->
+    <bean id="redisTemplate" class="org.springframework.data.redis.core.RedisTemplate">
+        <property name="connectionFactory" ref="connectionFactory"></property>
+    </bean>
+</beans>
