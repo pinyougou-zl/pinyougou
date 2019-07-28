@@ -57,10 +57,9 @@
         </div>
         <div class="box-tools pull-right">
             <div class="has-feedback">
-                <input type="hidden" >
-                <button class="btn btn-default" v-model="searchEntity.status='Y'" @click="searchList(1)">只显示有效用户</button>
+                <button class="btn btn-default" @click="searchList(1),searchEntity.status='Y'">只显示有效用户</button>
+                <button class="btn btn-default" @click="searchList(1),searchEntity.status='N'">只显示无效用户</button>
             </div>
-            <button class="btn btn-default" v-model="searchEntity.status='N'" @click="searchList(1)">只显示无效用户</button>
         </div>
         <!--工具栏/-->
 

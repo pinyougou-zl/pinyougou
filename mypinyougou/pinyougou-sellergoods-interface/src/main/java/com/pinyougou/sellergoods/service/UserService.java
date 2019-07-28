@@ -19,7 +19,7 @@ public interface UserService extends CoreService<TbUser> {
 	 */
 	 PageInfo<TbUser> findPage(Integer pageNo, Integer pageSize);
 	
-	
+
 
 	/**
 	 * 分页
