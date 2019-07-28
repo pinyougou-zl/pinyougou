@@ -132,5 +132,12 @@ public class UserController {
 		map.put("sellerNumber", sellerNumber);
 		return map;
 	}
+
+
+	@RequestMapping("/userActive")
+	public Map<String,Object> userActive(){
+		Map<String, Object> map = userService.userActive();
+		return map;
+	}
 	
 }

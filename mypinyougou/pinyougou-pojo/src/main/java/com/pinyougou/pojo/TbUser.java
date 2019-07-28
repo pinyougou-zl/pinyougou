@@ -145,6 +145,12 @@ public class TbUser implements Serializable {
     @Column(name = "last_login_time")
     private Date lastLoginTime;
 
+    /**
+     * 一周登录次数统计
+     */
+    @Column(name = "loginCount")
+    private Integer loginCount;
+
     private static final long serialVersionUID = 1L;
 
     /**
@@ -533,5 +539,21 @@ public class TbUser implements Serializable {
      */
     public void setLastLoginTime(Date lastLoginTime) {
         this.lastLoginTime = lastLoginTime;
+    }
+
+    /**
+     * 获取一周登录总次数
+     * @return
+     */
+    public Integer getLoginCount() {
+        return loginCount;
+    }
+
+    /**
+     * 设置一周登录总次数
+     * @param loginCount
+     */
+    public void setLoginCount(Integer loginCount) {
+        this.loginCount = loginCount;
     }
 }

@@ -149,6 +149,31 @@ public class UserServiceImpl extends CoreServiceImpl<TbUser> implements UserServ
 		}else {
 			return tbGoodsList;
 		}
-
 	}
+
+	@Override
+	public Map<String,Object> userActive(){
+		//先查询有效用户
+		Example example = new Example(TbUser.class);
+		example.createCriteria().andEqualTo("status", "Y");
+		List<TbUser> userList = userMapper.selectByExample(example);
+		//建立两个集合，分别存储活跃用户和非活跃用户
+		List<TbUser> activeUser = new ArrayList<>();
+		List<TbUser> inActiveUser = new ArrayList<>();
+		//遍历用户数据，进行垃圾分类
+		for (TbUser tbUser : userList) {
+			//一周登录十次以上的是活跃用户，其他都是不活跃的
+			if (tbUser.getLoginCount() >= 10) {
+				activeUser.add(tbUser);
+			}else {
+				inActiveUser.add(tbUser);
+			}
+		}
+		//建立一个map集合用于返回数据
+		Map<String,Object> map = new HashMap<>();
+		map.put("activeUser", activeUser);
+		map.put("inActiveUser", inActiveUser);
+		return map;
+	}
+
 }

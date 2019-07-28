@@ -32,13 +32,17 @@ public class LoginServiceImpl extends CoreServiceImpl<TbUser> implements LoginSe
         condition.setUsername(username);
         TbUser tbUser = userMapper.selectOne(condition);
 
+        //优先判断状态，节约系统资源
+        if ("N".equals(tbUser.getStatus())){
+            return false;
+        }
+
         //获取用户最后登录的时间
         Date lastLoginTime = tbUser.getLastLoginTime();
         if (lastLoginTime == null) {
             //第一次登录的时候，这个值肯定是null，所以赋值为当前时间
             lastLoginTime = new Date();
             tbUser.setLastLoginTime(lastLoginTime);
-            userMapper.updateByPrimaryKeySelective(tbUser);
         }
 
         //获取当前时间
@@ -50,9 +54,13 @@ public class LoginServiceImpl extends CoreServiceImpl<TbUser> implements LoginSe
 
         int days = (int) ((now-last) / (1000*3600*24));
         if (days >= 90) {
+            //修改状态
+            tbUser.setStatus("N");
+            userMapper.updateByPrimaryKeySelective(tbUser);
             return false;
         }
-        //登录成功,更新上次登录时间
+        //登录成功,更新上次登录时间,并增加登录次数
+        tbUser.setLoginCount(tbUser.getLoginCount()+1);
         userMapper.updateByPrimaryKeySelective(tbUser);
         return true;
     }

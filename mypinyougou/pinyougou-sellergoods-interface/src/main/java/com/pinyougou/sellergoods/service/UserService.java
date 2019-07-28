@@ -6,6 +6,7 @@ import com.pinyougou.pojo.TbGoods;
 import com.pinyougou.pojo.TbUser;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * 服务层接口
@@ -37,4 +38,9 @@ public interface UserService extends CoreService<TbUser> {
 	 * 用户统计
 	 */
 	List<TbGoods> userCount();
+
+	/**
+	 * 活跃用户和非活跃用户统计
+	 */
+	Map<String,Object> userActive();
 }
