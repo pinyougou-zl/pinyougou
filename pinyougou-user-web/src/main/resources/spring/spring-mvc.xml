@@ -49,7 +49,7 @@
 
     <!--配置dubbo-->
     <dubbo:application name="pinyougou-user-web"></dubbo:application>
-    <dubbo:registry protocol="zookeeper" address="192.168.25.133" port="2181"></dubbo:registry>
+    <dubbo:registry protocol="zookeeper" address="192.168.25.129" port="2181"></dubbo:registry>
     <!--dubbo注解配置-->
     <dubbo:annotation package="com.pinyougou.user.controller"></dubbo:annotation>
     <!--消费者需要的是consumer-->

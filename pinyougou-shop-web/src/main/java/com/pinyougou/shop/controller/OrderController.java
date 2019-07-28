@@ -9,6 +9,7 @@ import com.pinyougou.pojo.TbOrder;
 import com.pinyougou.sellergoods.service.OrderService;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 /**
@@ -24,12 +25,12 @@ public class OrderController {
 	private OrderService orderService;
 
 	//指定时间段统计各商品销售额
-//	@RequestMapping("/findGoodsSeller")
-//	public List findGoodsSeller(){
-//
-//		List goodsSellerList=orderService.findGoodsSellerPayment();
-//		return goodsSellerList;
-//	}
+	@RequestMapping("/findGoodsSeller")
+	public BigDecimal findGoodsSeller(){
+
+		BigDecimal payment=orderService.findGoodsSellerPayment();
+		return payment;
+	}
 
 	//查询所有订单
 	@RequestMapping("/findOrderItems")

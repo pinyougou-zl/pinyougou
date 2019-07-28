@@ -5,6 +5,7 @@ import com.github.pagehelper.PageInfo;
 import com.pinyougou.core.service.CoreService;
 import com.pinyougou.pojo.TbOrder;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 /**
@@ -31,5 +32,6 @@ public interface OrderService extends CoreService<TbOrder> {
 	 * @return
 	 */
 	PageInfo<TbOrder> findPage(Integer pageNo, Integer pageSize, TbOrder Order);
-	
+
+	BigDecimal findGoodsSellerPayment();
 }

@@ -3,6 +3,7 @@ package com.pinyougou.order.service.impl;
 import com.alibaba.dubbo.config.annotation.Service;
 import com.alibaba.fastjson.JSON;
 import com.entity.Cart;
+import com.entity.OrderItems;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.pinyougou.common.util.IdWorker;
@@ -238,7 +239,7 @@ public class OrderServiceImpl extends CoreServiceImpl<TbOrder>  implements Order
 		return (TbPayLog) redisTemplate.boundHashOps("payLog").get(userId);
 	}
 	
-	@Override
+	/*@Override
 	public List<OrderItems> findOrderItems() {
 		Date date = new Date();
 		Example example = new Example(TbOrder.class);
@@ -280,9 +281,9 @@ public class OrderServiceImpl extends CoreServiceImpl<TbOrder>  implements Order
 				orderItems.setReceiver(tbOrder.getReceiver());
 				orderItems.setPayment(tbOrder.getPayment());
 
-				/*Condition condition = new Condition(TbOrder.class);
+				*//*Condition condition = new Condition(TbOrder.class);
 				condition.
-				example.createCriteria().andCondition(condition);*/
+				example.createCriteria().andCondition(condition);*//*
 				//example.createCriteria().andIn(createTime.toString(), createTime)
 				TbOrder tbOrder1 = orderMapper.selectByPrimaryKey(example);
 				System.out.print("商品名："+tbOrderItem.getTitle() + "===");
@@ -298,7 +299,7 @@ public class OrderServiceImpl extends CoreServiceImpl<TbOrder>  implements Order
 
 		System.out.println("ordersList值=========" + ordersList);
 		return ordersList;
-	}
+	}*/
 
 
 	/**

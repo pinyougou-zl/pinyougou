@@ -13,7 +13,8 @@
     methods: {
         //查询所有订单findOrderItems
         findOrderItems:function () {
-            axios.post('/order/findOrderItems.shtml').then(function (response) {
+            axios.post('/order/findGoodsSeller.shtml').then(function (response) {
+           // axios.post('/order/findOrderItems.shtml').then(function (response) {
 
                 //获取数据
                 alert(111)
