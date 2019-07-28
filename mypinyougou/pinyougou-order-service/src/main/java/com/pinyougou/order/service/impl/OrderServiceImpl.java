@@ -7,15 +7,9 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.pinyougou.common.util.IdWorker;
 import com.pinyougou.core.service.CoreServiceImpl;
-import com.pinyougou.mapper.TbItemMapper;
-import com.pinyougou.mapper.TbOrderItemMapper;
-import com.pinyougou.mapper.TbOrderMapper;
-import com.pinyougou.mapper.TbPayLogMapper;
+import com.pinyougou.mapper.*;
 import com.pinyougou.order.service.OrderService;
-import com.pinyougou.pojo.TbItem;
-import com.pinyougou.pojo.TbOrder;
-import com.pinyougou.pojo.TbOrderItem;
-import com.pinyougou.pojo.TbPayLog;
+import com.pinyougou.pojo.*;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -57,6 +51,9 @@ public class OrderServiceImpl extends CoreServiceImpl<TbOrder>  implements Order
 		super(orderMapper, TbOrder.class);
 		this.orderMapper=orderMapper;
 	}
+
+	@Autowired
+	private TbGoodsMapper goodsMapper;
 
 	/**
 	 * 重写add方法
@@ -240,8 +237,8 @@ public class OrderServiceImpl extends CoreServiceImpl<TbOrder>  implements Order
 
 	/**
 	 * 修改订单的状态
-	 * @param out_trade_no
-	 * @param transaction_id
+	 * @param out_trade_no 支付订单号
+	 * @param transaction_id 交易号
 	 */
 	@Override
 	public void updateorderStatus(String out_trade_no, String transaction_id) {
@@ -255,14 +252,40 @@ public class OrderServiceImpl extends CoreServiceImpl<TbOrder>  implements Order
 		String orderList = tbPayLog.getOrderList();  //获取订单号列表
 		String[] split = orderList.split(",");  //获取订单号的数组
 		//改变状态
-		for (String s : split) {  //取得是订单号
+		for (String s : split) {  //取得是订单号(order_id)
 			TbOrder tbOrder = orderMapper.selectByPrimaryKey(Long.parseLong(s));
 			if(tbOrder != null) {
 				tbOrder.setStatus("2");
+				//更新销售额
+				updateGoodsSellerNumber(tbOrder);
 				orderMapper.updateByPrimaryKey(tbOrder);
 			}
 		}
+
 		//3. 清除缓存中的支付日志对象
 		redisTemplate.boundHashOps("payLog").delete(tbPayLog.getUserId());
+	}
+
+	/**
+	 * 支付成功后，更新商品的销售额
+	 * @param tbOrder
+	 */
+	public void updateGoodsSellerNumber(TbOrder tbOrder) {
+		//获取订单详情
+		TbOrderItem orderItem = new TbOrderItem();
+		orderItem.setOrderId(tbOrder.getOrderId());
+		List<TbOrderItem> orderItemList = orderItemMapper.select(orderItem);
+		//循环订单详情，获取到每个商品
+		if (orderItemList != null) {
+			for (TbOrderItem tbOrderItem : orderItemList) {
+				//获取到商品数据
+				Long goodsId = tbOrderItem.getGoodsId();
+				TbGoods tbGoods = goodsMapper.selectByPrimaryKey(goodsId);
+				//销售额根据销售数量增加
+				tbGoods.setSellerNumber(tbGoods.getSellerNumber()+tbOrderItem.getNum());
+				goodsMapper.updateByPrimaryKeySelective(tbGoods);
+			}
+		}
+
 	}
 }

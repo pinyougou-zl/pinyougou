@@ -5,14 +5,21 @@ import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.pinyougou.core.service.CoreServiceImpl;
+import com.pinyougou.mapper.TbGoodsMapper;
+import com.pinyougou.mapper.TbOrderMapper;
 import com.pinyougou.mapper.TbUserMapper;
+import com.pinyougou.pojo.TbGoods;
+import com.pinyougou.pojo.TbOrder;
 import com.pinyougou.pojo.TbUser;
 import com.pinyougou.sellergoods.service.UserService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import tk.mybatis.mapper.entity.Example;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 /**
@@ -32,7 +39,9 @@ public class UserServiceImpl extends CoreServiceImpl<TbUser> implements UserServ
 		this.userMapper=userMapper;
 	}
 
-	
+
+	@Autowired
+	private TbGoodsMapper goodsMapper;
 	
 
 	
@@ -122,17 +131,24 @@ public class UserServiceImpl extends CoreServiceImpl<TbUser> implements UserServ
         return pageInfo;
     }
 
-    @Override
-    public PageInfo<TbUser> findByStatus(Integer pageNo, Integer pageSize,String status) {
-		TbUser tbUser = new TbUser();
-		tbUser.setStatus(status);
-		PageHelper.startPage(pageNo, pageSize);
-		List<TbUser> userList = userMapper.select(tbUser);
-		PageInfo<TbUser> info = new PageInfo<>(userList);
-		//序列化再反序列化
-		String s = JSON.toJSONString(info);
-		PageInfo<TbUser> pageInfo = JSON.parseObject(s, PageInfo.class);
-		return pageInfo;
-    }
 
+	/**
+	 * 用户统计
+	 * 作者：房靖滔
+	 */
+	@Override
+	public List<TbGoods> userCount(){
+		//查询当前有效数据
+		Example example = new Example(TbGoods.class);
+		example.createCriteria().andEqualTo("auditStatus", "1");
+		example.setOrderByClause("sellerNumber DESC");
+		List<TbGoods> tbGoodsList = goodsMapper.selectByExample(example);
+		//获取最受欢迎的前五个商品数据,不足就直接返回
+		if (tbGoodsList.size() > 6) {
+			return tbGoodsList.subList(0, 5);
+		}else {
+			return tbGoodsList;
+		}
+
+	}
 }

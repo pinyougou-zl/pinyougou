@@ -2,7 +2,10 @@ package com.pinyougou.sellergoods.service;
 
 import com.github.pagehelper.PageInfo;
 import com.pinyougou.core.service.CoreService;
+import com.pinyougou.pojo.TbGoods;
 import com.pinyougou.pojo.TbUser;
+
+import java.util.List;
 
 /**
  * 服务层接口
@@ -29,5 +32,9 @@ public interface UserService extends CoreService<TbUser> {
 	 */
 	PageInfo<TbUser> findPage(Integer pageNo, Integer pageSize, TbUser User);
 
-	PageInfo<TbUser> findByStatus(Integer pageNo, Integer pageSize,String status);
+
+	/**
+	 * 用户统计
+	 */
+	List<TbGoods> userCount();
 }

@@ -104,6 +104,12 @@ public class TbGoods implements Serializable {
     @Column(name = "is_delete")
     private Boolean isDelete;
 
+    /**
+     * 销售额
+     */
+    @Column(name = "sellerNumber")
+    private Long sellerNumber;
+
     private static final long serialVersionUID = 1L;
 
     /**
@@ -392,5 +398,21 @@ public class TbGoods implements Serializable {
      */
     public void setIsDelete(Boolean isDelete) {
         this.isDelete = isDelete;
+    }
+
+    /**
+     * 获取销售额
+     * @return
+     */
+    public Long getSellerNumber() {
+        return sellerNumber;
+    }
+
+    /**
+     * 设置销售额
+     * @param sellerNumber
+     */
+    public void setSellerNumber(Long sellerNumber) {
+        this.sellerNumber = sellerNumber;
     }
 }

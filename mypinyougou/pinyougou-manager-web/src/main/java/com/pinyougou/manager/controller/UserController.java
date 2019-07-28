@@ -3,11 +3,15 @@ package com.pinyougou.manager.controller;
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.entity.Result;
 import com.github.pagehelper.PageInfo;
+import com.pinyougou.pojo.TbGoods;
 import com.pinyougou.pojo.TbUser;
 import com.pinyougou.sellergoods.service.UserService;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * controller
@@ -20,7 +24,8 @@ public class UserController {
 
 	@Reference
 	private UserService userService;
-	
+
+
 	/**
 	 * 返回全部列表
 	 * @return
@@ -106,12 +111,26 @@ public class UserController {
     }
 
 
-    @RequestMapping("/findByStatus")
-	public PageInfo<TbUser> findByStatus(@RequestParam(value = "pageNo", defaultValue = "1", required = true) Integer pageNo,
-										 @RequestParam(value = "pageSize", defaultValue = "10", required = true) Integer pageSize,
-										 @RequestParam(value = "status",required = false) String status){
-		PageInfo<TbUser> pageInfo = userService.findByStatus(pageNo, pageSize, status);
-		return pageInfo;
+	/**
+	 * 用户统计功能
+	 * @return
+	 * 作者：房靖滔
+	 */
+	@RequestMapping("/userCount")
+	public Map<String,Object> userCount(){
+		//统计数据，获取最受用户喜欢的商品
+		List<TbGoods> goodsList = userService.userCount();
+		//转成Map集合
+		Map<String,Object> map = new HashMap<>();
+		List<String> goodsName = new ArrayList<>();
+		List<Long> sellerNumber = new ArrayList<>();
+		for (TbGoods tbGoods : goodsList) {
+			goodsName.add(tbGoods.getGoodsName());
+			sellerNumber.add(tbGoods.getSellerNumber());
+		}
+		map.put("goodsName", goodsName);
+		map.put("sellerNumber", sellerNumber);
+		return map;
 	}
 	
 }
