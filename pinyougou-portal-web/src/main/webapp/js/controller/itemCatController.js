@@ -4,6 +4,7 @@
         pages:15,
         pageNo:1,
         list:[],
+
         entity:{parentId:0},
         ids:[],
         entity_1:{},//变量1
@@ -16,6 +17,7 @@
             axios.post('/itemCat/goodsItem/'+parentId).then(
                 function (response) {
                     app.list=response.data
+                    /*app.list=JSON.parse(response.data)*/
                 }
             )
         }

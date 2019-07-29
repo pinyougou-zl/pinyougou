@@ -159,12 +159,20 @@ public class ItemCatServiceImpl extends CoreServiceImpl<TbItemCat>  implements I
                     Example example3 = new Example(TbItemCat.class);
                     example3.createCriteria().andEqualTo("parentId",cat.getId()).andEqualTo("status","1");
                     List<TbItemCat> itemCats3 = itemCatMapper.selectByExample(example3);
+                    List<ItemQuery> itemCat3 = new ArrayList<>();
+                    for (TbItemCat itemCat : itemCats3) {
+                        ItemQuery itemQuery = new ItemQuery();
+                        itemQuery.setId(itemCat.getId());
+                        itemQuery.setName(itemCat.getName());
+                        itemQuery.setParentId(itemCat.getParentId());
+                        itemCat3.add(itemQuery);
+                    }
                     //设置三级分类到二级分类的list中
-                    itemCat02.setItemCatList(itemCats3);
+                    itemCat02.setItemQueries(itemCat3);
                     itemCatList02.add(itemCat02);
                 }
                 //设置二级分类到顶级分类的List中
-                itemCat01.setItemCatList(itemCats2);
+                itemCat01.setItemQueries(itemCatList02);
                 itemCats.add(itemCat01);
             }
             //存入redis

@@ -17,7 +17,7 @@ public class ItemQuery implements Serializable {
 
     private String status;
 
-    private List<TbItemCat> itemCatList;
+    private List<ItemQuery> itemQueries;
 
     public Long getId() {
         return id;
@@ -59,11 +59,11 @@ public class ItemQuery implements Serializable {
         this.status = status;
     }
 
-    public List<TbItemCat> getItemCatList() {
-        return itemCatList;
+    public List<ItemQuery> getItemQueries() {
+        return itemQueries;
     }
 
-    public void setItemCatList(List<TbItemCat> itemCatList) {
-        this.itemCatList = itemCatList;
+    public void setItemQueries(List<ItemQuery> itemQueries) {
+        this.itemQueries = itemQueries;
     }
 }

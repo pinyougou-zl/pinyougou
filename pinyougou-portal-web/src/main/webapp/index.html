@@ -131,13 +131,13 @@
 			<div class="yui3-g SortList ">
 				<div class="yui3-u Left all-sort-list">
 					<div class="all-sort-list2">
-						<div class="item bo" v-for="itemCat1 in list">
-							<h3><a href="">{{itemCat1.name}}</a></h3>
-							<div class="item-list clearfix" style="display: none;">
-								<div class="subitem" v-for="itemCat2 in itemCat1.itemCatList" >
-									<dl class="fore1">
+						<div :class="{item,hover:flag}"  @mouseover="enter()" @mouseout="leave()" v-for="(itemCat1,index) in list">
+							<h3 ><a href="">{{itemCat1.name}}</a></h3>
+							<div class="item-list clearfix" :style="{display:flag?'block':'none'}">
+								<div class="subitem"  >
+									<dl class="fore1" v-for="itemCat2 in itemCat1.itemQueries">
 										<dt><a href="">{{itemCat2.name}}</a></dt>
-										<dd><a href="" v-for="itemCat3 in itemCat2.itemCatList">{{itemCat3.name}}</a></dd>
+										<dd><a href="" v-for="itemCat3 in itemCat2.itemQueries">{{itemCat3.name}}</a></dd>
 									</dl>
 								</div>
 							</div>
