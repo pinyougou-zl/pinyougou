@@ -134,10 +134,30 @@ public class UserController {
 	}
 
 
+	/**
+	 * 统计活跃用户和非活跃用户
+	 * @return
+	 * 作者：房靖滔
+	 */
 	@RequestMapping("/userActive")
 	public Map<String,Object> userActive(){
 		Map<String, Object> map = userService.userActive();
 		return map;
+	}
+
+	/**
+	 * 使用POI导出用户数据
+	 */
+	@RequestMapping("/userExport")
+	public Result userExport(){
+		try {
+			List<TbUser> allUser = userService.findAll();
+			userService.userExport(allUser);
+			return new Result(true, "导出成功");
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new Result(false, "导出失败");
+		}
 	}
 	
 }

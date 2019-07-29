@@ -43,4 +43,6 @@ public interface UserService extends CoreService<TbUser> {
 	 * 活跃用户和非活跃用户统计
 	 */
 	Map<String,Object> userActive();
+
+	void userExport(List<TbUser> allUser);
 }

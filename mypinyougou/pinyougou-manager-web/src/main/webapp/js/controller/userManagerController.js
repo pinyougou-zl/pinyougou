@@ -7,7 +7,8 @@
         entity:{},
         ids:[],
         searchEntity:{},
-        status:'Y'
+        status:'Y',
+        fileExport:''
     },
     methods: {
         searchList:function (curPage) {
@@ -104,16 +105,15 @@
             var   second=_time.getSeconds();//15
             return   year+"年"+month+"月"+date+"日   "+hour+":"+minute+":"+second;//这里自己按自己需要的格式拼接
         },
-        //根据状态查询用户
-        findByStatus:function (curPage,status) {
-            app.status=status;
-            axios('/user/findByStatus.shtml?pageNo='+curPage+'&status='+status).then(
-                function (response) {//response.data=pageinfo
-                    app.list=response.data.list;
-                    //当前页
-                    app.pageNo=curPage;
-                    //总页数
-                    app.pages=response.data.pages;
+        //导出所有用户
+        exportUser:function () {
+            axios.post('/user/userExport.shtml').then(
+                function (response) {
+                    if (response.data.success) {
+                        alert("导出成功");
+                    }else {
+                        alert("导出失败");
+                    }
                 }
             )
         }

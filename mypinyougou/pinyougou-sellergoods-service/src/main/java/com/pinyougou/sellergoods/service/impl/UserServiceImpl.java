@@ -13,9 +13,16 @@ import com.pinyougou.pojo.TbOrder;
 import com.pinyougou.pojo.TbUser;
 import com.pinyougou.sellergoods.service.UserService;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.poi.xssf.usermodel.XSSFCell;
+import org.apache.poi.xssf.usermodel.XSSFRow;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import tk.mybatis.mapper.entity.Example;
 
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -151,6 +158,10 @@ public class UserServiceImpl extends CoreServiceImpl<TbUser> implements UserServ
 		}
 	}
 
+	/**
+	 * 活跃用户和非活跃用户的统计
+	 * @return
+	 */
 	@Override
 	public Map<String,Object> userActive(){
 		//先查询有效用户
@@ -176,4 +187,65 @@ public class UserServiceImpl extends CoreServiceImpl<TbUser> implements UserServ
 		return map;
 	}
 
+
+	@Override
+	public void userExport(List<TbUser> allUser) {
+		FileOutputStream fos = null;
+		try {
+			// 创建工作簿
+			XSSFWorkbook wb = new XSSFWorkbook();
+			// 工作表
+			XSSFSheet sheet = wb.createSheet("用户信息表");
+			// 标头行，代表第一行
+			XSSFRow header = sheet.createRow(0);
+			// 创建单元格，0代表第一行第一列
+			XSSFCell cell = header.createCell(0);
+			cell.setCellValue("用户名");
+			header.createCell(1).setCellValue("注册手机号");
+			header.createCell(2).setCellValue("注册邮箱");
+			header.createCell(3).setCellValue("创建时间");
+			header.createCell(4).setCellValue("使用状态");
+			header.createCell(5).setCellValue("最后登录时间");
+			header.createCell(6).setCellValue("一周登录次数统计");
+			// 设置列的宽度
+			// getPhysicalNumberOfCells()代表这行有多少包含数据的列
+			for (int i = 0; i < header.getPhysicalNumberOfCells(); i++) {
+				// POI设置列宽度时比较特殊，它的基本单位是1/255个字符大小，
+				// 因此我们要想让列能够盛的下20个字符的话，就需要用255*20
+				sheet.setColumnWidth(i, 255 * 20);
+			}
+			// 设置行高，30像素
+			header.setHeightInPoints(30);
+
+
+			//导出数据库中的数据
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+			for (int i = 0; i < allUser.size(); i++) {
+				XSSFRow row = sheet.createRow(i+1);
+				TbUser tbUser = allUser.get(i);
+				row.createCell(0).setCellValue(tbUser.getUsername());
+				row.createCell(1).setCellValue(tbUser.getPhone());
+				row.createCell(2).setCellValue(tbUser.getEmail());
+				row.createCell(3).setCellValue(sdf.format(tbUser.getCreated()));
+				row.createCell(4).setCellValue(tbUser.getStatus());
+				row.createCell(5).setCellValue(sdf.format(tbUser.getLastLoginTime()));
+				row.createCell(6).setCellValue(tbUser.getLoginCount());
+			}
+
+			//输出文件要么是 \\要么/否则会报错
+			fos = new FileOutputStream("e:/user.xlsx");
+			// 向指定文件写入内容
+			wb.write(fos);
+		} catch (IOException e) {
+			e.printStackTrace();
+			System.out.println("导出Excel文件异常");
+		} finally {
+			//关闭流
+			try {
+				fos.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+	}
 }

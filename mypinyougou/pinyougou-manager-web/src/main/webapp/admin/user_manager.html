@@ -32,20 +32,11 @@
             <div class="form-group form-inline">
                 <div class="btn-group">
                     <button type="button" class="btn btn-default" title="新建" data-toggle="modal"
-                            data-target="#editModal" ng-click="toAdd()"><i class="fa fa-file-o"></i> 新建
+                            @click="exportUser()">
+                        导出所有用户
                     </button>
-                    <button type="button" class="btn btn-default" title="删除" ng-click="dele()"><i
-                        class="fa fa-trash-o"></i> 删除
-                    </button>
-                    <button type="button" class="btn btn-default" title="开启" onclick='confirm("你确认要开启吗？")'><i
-                        class="fa fa-check"></i> 开启
-                    </button>
-                    <button type="button" class="btn btn-default" title="屏蔽" onclick='confirm("你确认要屏蔽吗？")'><i
-                        class="fa fa-ban"></i> 屏蔽
-                    </button>
-                    <button type="button" class="btn btn-default" title="刷新" onclick="window.location.reload();"><i
-                        class="fa fa-refresh"></i> 刷新
-                    </button>
+                    {{fileExport}}
+                    <input type="file" v-model="fileExport" value="选择下载路径">
                 </div>
             </div>
         </div>
