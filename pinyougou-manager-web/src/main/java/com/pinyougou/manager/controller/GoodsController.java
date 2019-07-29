@@ -14,6 +14,7 @@ import com.pinyougou.sellergoods.service.GoodsService;
 import org.apache.rocketmq.client.producer.DefaultMQProducer;
 import org.apache.rocketmq.client.producer.SendResult;
 import org.apache.rocketmq.common.message.Message;
+import org.elasticsearch.common.collect.HppcMaps;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
@@ -54,8 +55,9 @@ public class GoodsController {
 	
 	@RequestMapping("/findPage")
     public PageInfo<TbGoods> findPage(@RequestParam(value = "pageNo", defaultValue = "1", required = true) Integer pageNo,
-                                      @RequestParam(value = "pageSize", defaultValue = "10", required = true) Integer pageSize) {
-        return goodsService.findPage(pageNo, pageSize);
+                                      @RequestParam(value = "pageSize", defaultValue = "10", required = true)Integer pageSize) {
+        /*return goodsService.findPage(pageNo,pageSize );*/
+		return goodsService.findPage(pageNo,pageSize );
     }
 	
 	/**
