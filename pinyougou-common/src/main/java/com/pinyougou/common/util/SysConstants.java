@@ -34,4 +34,7 @@ public class SysConstants {
     //秒杀商品的订单的KEY
     public static final String SEC_KILL_ORDER="seckillOrder";
 
+    //前台页面展示
+    public static final String YM="pageDisplay";
+
 }

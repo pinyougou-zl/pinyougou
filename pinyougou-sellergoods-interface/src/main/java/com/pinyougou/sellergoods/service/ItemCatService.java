@@ -1,5 +1,6 @@
 package com.pinyougou.sellergoods.service;
 
+import com.entity.ItemQuery;
 import com.pinyougou.pojo.TbItemCat;
 
 import com.github.pagehelper.PageInfo;
@@ -36,4 +37,6 @@ public interface ItemCatService extends CoreService<TbItemCat> {
 	PageInfo<TbItemCat> findPage(Integer pageNo, Integer pageSize, TbItemCat ItemCat);
 
 	void updateStatus(Long[] ids, String status);
+
+    List<ItemQuery> findGoodItem(Long parentId);
 }

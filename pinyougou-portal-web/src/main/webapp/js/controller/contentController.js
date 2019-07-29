@@ -108,6 +108,13 @@
         doSearch:function () {
             window.location.href="http://localhost:9104/search.html?keywords="+encodeURIComponent(this.keywords);
         },
+        goodsItem:function (parentId) {
+            axios.post('/itemCat/goodsItem/'+parentId).then(
+                function (response) {
+                    app.list=response.data
+                }
+            )
+        }
 
 
 
@@ -115,6 +122,7 @@
     //钩子函数 初始化了事件和
     created: function () {
         this.findByCategoryId(1);
+        this.goodsItem(0)
     }
 
 })
