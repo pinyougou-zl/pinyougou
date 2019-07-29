@@ -160,4 +160,46 @@ public class TypeTemplateServiceImpl extends CoreServiceImpl<TbTypeTemplate>  im
 		typeTemplateMapper.updateByExampleSelective(typeTemplate,example);
 	}
 
+	/**
+	 * 防冲突
+	 */
+	@Override
+	public PageInfo<TbTypeTemplate> oneFindPage(Integer pageNo, Integer pageSize, TbTypeTemplate typeTemplate) {
+		PageHelper.startPage(pageNo,pageSize);
+
+		Example example = new Example(TbTypeTemplate.class);
+		Example.Criteria criteria = example.createCriteria();
+
+		if(typeTemplate!=null){
+			if(StringUtils.isNotBlank(typeTemplate.getName())){
+				criteria.andLike("name","%"+typeTemplate.getName()+"%");
+				//criteria.andNameLike("%"+typeTemplate.getName()+"%");
+			}
+			if(StringUtils.isNotBlank(typeTemplate.getSpecIds())){
+				criteria.andLike("specIds","%"+typeTemplate.getSpecIds()+"%");
+				//criteria.andSpecIdsLike("%"+typeTemplate.getSpecIds()+"%");
+			}
+			if(StringUtils.isNotBlank(typeTemplate.getBrandIds())){
+				criteria.andLike("brandIds","%"+typeTemplate.getBrandIds()+"%");
+				//criteria.andBrandIdsLike("%"+typeTemplate.getBrandIds()+"%");
+			}
+			if(StringUtils.isNotBlank(typeTemplate.getCustomAttributeItems())){
+				criteria.andLike("customAttributeItems","%"+typeTemplate.getCustomAttributeItems()+"%");
+				//criteria.andCustomAttributeItemsLike("%"+typeTemplate.getCustomAttributeItems()+"%");
+			}
+			if(StringUtils.isNotBlank(typeTemplate.getSellerId())){
+				criteria.andEqualTo("sellerId",typeTemplate.getSellerId());
+
+			}
+
+		}
+		List<TbTypeTemplate> all = typeTemplateMapper.selectByExample(example);
+		PageInfo<TbTypeTemplate> info = new PageInfo<TbTypeTemplate>(all);
+		//序列化再反序列化
+		String s = JSON.toJSONString(info);
+		PageInfo<TbTypeTemplate> pageInfo = JSON.parseObject(s, PageInfo.class);
+
+		return pageInfo;
+	}
+
 }
