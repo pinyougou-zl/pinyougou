@@ -7,7 +7,7 @@ axios.get('/user/userActive.shtml').then(
         myChart.setOption({
             title : {
                 text: '活跃用户和非活跃用户统计',
-                subtext: '数据库直查，绝对真实',
+                subtext: '---广告位招租---',
                 x:'center'
             },
             tooltip : {

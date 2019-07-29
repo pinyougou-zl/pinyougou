@@ -7,6 +7,8 @@ import com.pinyougou.pojo.TbUser;
 import com.pinyougou.user.service.LoginService;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 @Service
@@ -61,7 +63,43 @@ public class LoginServiceImpl extends CoreServiceImpl<TbUser> implements LoginSe
         }
         //登录成功,更新上次登录时间,并增加登录次数
         tbUser.setLoginCount(tbUser.getLoginCount()+1);
+        //TODO 每周一的时候要清零统计
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(new Date());
+        int dayOfWeek = cal.get(Calendar.DAY_OF_WEEK) - 1;//当前周几
+        if (dayOfWeek == 1) {
+            //周一，清零统计
+            tbUser = clearCount(tbUser);
+        }
         userMapper.updateByPrimaryKeySelective(tbUser);
         return true;
     }
+
+    /**
+     * 此方法用于清零登录次数统计
+     * @param tbUser
+     * 作者：房靖滔
+     */
+    private TbUser clearCount(TbUser tbUser) {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        //获取当前时间和用户的最后登录时间
+        Date lastLoginTime = tbUser.getLastLoginTime();
+        Date nowTime = new Date();
+        //格式化
+        String lastLoginTimeStr = sdf.format(lastLoginTime);
+        String nowTimeStr = sdf.format(nowTime);
+        //比较是否是同一天
+        if (nowTimeStr.equals(lastLoginTimeStr)){
+            //同一天 外面已经操作过了，不用重复操作
+            //tbUser.setLoginCount(tbUser.getLoginCount()+1);
+        }else {
+            //不是同一天,登录次数变为1并更新登录时间
+            tbUser.setLoginCount(1);
+            tbUser.setLastLoginTime(nowTime);
+        }
+        //返回tbUser
+        return tbUser;
+    }
+
+
 }
