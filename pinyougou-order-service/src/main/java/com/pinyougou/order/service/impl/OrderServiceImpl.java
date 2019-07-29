@@ -237,6 +237,69 @@ public class OrderServiceImpl extends CoreServiceImpl<TbOrder>  implements Order
 	public TbPayLog searchPayLogFromRedis(String userId) {
 		return (TbPayLog) redisTemplate.boundHashOps("payLog").get(userId);
 	}
+	
+	@Override
+	public List<OrderItems> findOrderItems() {
+		Date date = new Date();
+		Example example = new Example(TbOrder.class);
+		Example.Criteria criteria = example.createCriteria();
+
+		Example exampleTbOrderItem = new Example(TbOrderItem.class);
+		Example.Criteria criteriaTbOrderItem = exampleTbOrderItem.createCriteria();
+
+		//List<TbOrder> all = orderMapper.selectByExample(example);
+
+		//List<TbOrderItem> tbOrderItems = orderItemMapper.selectByExample(criteriaTbOrderItem);
+
+		List<TbOrderItem> tbOrderItems = orderItemMapper.selectAll();
+		//创建Oders组合类集合，存储TbOrder和TbOrderItem值
+		List<OrderItems> ordersList = new ArrayList<OrderItems>();
+		//创建Oders组合类，存储TbOrder和TbOrderItem值
+		//TbOrder tbOrder = new TbOrder();
+		//遍历所有TbOrderItem对象集合元素
+
+		for (TbOrderItem tbOrderItem : tbOrderItems) {
+			OrderItems orderItems = new OrderItems();
+			//if (tbOrderItem!=null) {
+			//设置TbOrderItem属性
+			orderItems.setOrderId(tbOrderItem.getOrderId());
+			orderItems.setTitle(tbOrderItem.getTitle());
+			orderItems.setPrice(tbOrderItem.getPrice());
+			orderItems.setNum(tbOrderItem.getNum());
+			Long orderId = tbOrderItem.getOrderId();
+
+			if (orderId<=10) {
+				TbOrder tbOrder = orderMapper.selectByPrimaryKey(orderId);
+
+				Date createTime = tbOrder.getCreateTime();
+				String receiver = tbOrder.getReceiver();
+				orderItems.setCreateTime(tbOrder.getCreateTime());
+				Date endTime = tbOrder.getEndTime();
+				orderItems.setEndTime(endTime);
+
+				orderItems.setReceiver(tbOrder.getReceiver());
+				orderItems.setPayment(tbOrder.getPayment());
+
+				/*Condition condition = new Condition(TbOrder.class);
+				condition.
+				example.createCriteria().andCondition(condition);*/
+				//example.createCriteria().andIn(createTime.toString(), createTime)
+				TbOrder tbOrder1 = orderMapper.selectByPrimaryKey(example);
+				System.out.print("商品名："+tbOrderItem.getTitle() + "===");
+				System.out.println("销售额："+tbOrder1.getPayment());
+
+				ordersList.add(orderItems);
+			}
+
+
+		}
+
+
+
+		System.out.println("ordersList值=========" + ordersList);
+		return ordersList;
+	}
+
 
 	/**
 	 * 修改订单的状态
