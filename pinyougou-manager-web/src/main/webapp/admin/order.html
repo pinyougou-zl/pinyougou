@@ -81,7 +81,7 @@
 		                                  <td>{{orderCome[order.sourceType]}}</td>
 		                                  <td>{{order.sellerId}}</td>
 		                                  <td class="text-center">
-		                                 	  <button type="button" class="btn bg-olive btn-xs"  data-target="#sellerModal">详情</button>
+											  <button type="button" class="btn bg-olive btn-xs" data-toggle="modal"  data-target="#sellerModal" @click="findByOrderId(order.orderId)" >详情</button>
 		                                  </td>
 			                          </tr>
 			                      </tbody>
@@ -96,6 +96,77 @@
                         
                      </div>
                     <!-- /.box-body -->
+					<div class="modal fade" id="sellerModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+						 aria-hidden="true">
+						<div class="modal-dialog modal-lg">
+							<div class="modal-content">
+								<div class="modal-header">
+									<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+									<h3 id="myModalLabel">商家详情</h3>
+								</div>
+								<div class="modal-body">
+
+									<ul class="nav nav-tabs">
+										<li class="active"><a href="#home" data-toggle="tab">商品详情</a></li>
+										<li><a href="#linkman" data-toggle="tab">商家</a></li>
+										<li><a href="#ceo" data-toggle="tab">商品图片展示</a></li>
+									</ul>
+
+									<!-- 选项卡开始 -->
+									<div id="myTabContent" class="tab-content">
+										<div class="tab-pane active in" id="home">
+											<br>
+											<table class="table table-bordered table-striped" width="800px">
+												<tr>
+													<td>商品名称</td>
+													<td>{{orderOne.goodsName}}</td>
+												</tr>
+												<tr>
+													<td>商品介绍</td>
+													<td>{{orderOne.orderItem.title}}</td>
+												</tr>
+												<tr>
+													<td>商家</td>
+													<td>{{orderOne.orderItem.sellerId}}</td>
+												</tr>
+											</table>
+										</div>
+										<div class="tab-pane fade" id="linkman">
+											<br>
+											<table class="table table-bordered table-striped">
+												<tr>
+													<td>单价</td>
+													<td>{{orderOne.orderItem.price}}</td>
+												</tr>
+												<tr>
+													<td>数量</td>
+													<td>{{orderOne.orderItem.num}}</td>
+												</tr>
+												<tr>
+													<td>支付金额</td>
+													<td>{{orderOne.orderItem.totalFee}}</td>
+												</tr>
+											</table>
+										</div>
+										<div class="tab-pane fade" id="ceo">
+											<br>
+											<table class="table table-bordered table-striped">
+												<tr>
+													<td>商品图片展示</td>
+													<td><img src="../img/account.png"></td>
+												</tr>
+											</table>
+										</div>
+									</div>
+									<!-- 选项卡结束 -->
+									<!-- /.box-body -->
+								</div>
+								<div class="modal-footer">
+									<button class="btn btn-default" data-dismiss="modal" aria-hidden="true" @click="orderOne={orderItem:{},goodsName:''}" >关闭</button>
+								</div>
+							</div>
+						</div>
+					</div>
 				</div>
 </body>
 <script src="../plugins/vue/vue.js"></script>

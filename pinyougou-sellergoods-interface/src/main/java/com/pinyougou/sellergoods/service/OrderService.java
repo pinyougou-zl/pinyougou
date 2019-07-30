@@ -2,6 +2,7 @@ package com.pinyougou.sellergoods.service;
 
 import com.entity.ItemMoney;
 import com.entity.OrderItems;
+import com.entity.OrderOne;
 import com.github.pagehelper.PageInfo;
 import com.pinyougou.core.service.CoreService;
 import com.pinyougou.pojo.TbOrder;
@@ -34,4 +35,6 @@ public interface OrderService extends CoreService<TbOrder> {
 	PageInfo<TbOrder> findPage(Integer pageNo, Integer pageSize, TbOrder Order);
 
     List<ItemMoney> findItemMoney(Long startTime, Long endTime);
+
+    OrderOne findByOrderId(Long id);
 }

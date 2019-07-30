@@ -8,8 +8,10 @@ var app = new Vue({
         ids: [],//存储要删除的品牌的id列表
         list: [],//数组  [{id,name,firstchar},{},{}]
         payType: ["", "在线支付", "货到付款"],
-        payStatus:["","未付款","已付款","未发货","已发货","交易成功","交易关闭","待评价"],
-        orderCome:["","app端","pc端","M端","微信端","手机qq端"]
+        payStatus: ["", "未付款", "已付款", "未发货", "已发货", "交易成功", "交易关闭", "待评价"],
+        orderCome: ["", "app端", "pc端", "M端", "微信端", "手机qq端"],
+        orderOne:{orderItem:{},goodsName:''}
+
     },
     methods: {
         findAll: function () {
@@ -96,7 +98,7 @@ var app = new Vue({
 
         timestampToTime: function (timestamp) {
 
-            if (timestamp != null&&timestamp != ""&&timestamp!="null") {
+            if (timestamp != null && timestamp != "" && timestamp != "null") {
                 var date = new Date(timestamp);//时间戳为10位需*1000，时间戳为13位的话不需乘1000
                 Y = date.getFullYear() + '-';
                 M = (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) + '-';
@@ -108,12 +110,17 @@ var app = new Vue({
             }
 
         },
-        //钩子函数
-        /*created: function () {
-            this.findAll();
-        },*/
-    },
-        created: function () {
-            this.searchList(1)
+        findByOrderId:function (id) {
+            axios.post('/order/findByOrderId/'+id).then(
+                function (response) {
+                    app.orderOne.orderItem=response.data.orderItem
+                    app.orderOne.goodsName=response.data.goodsName
+                }
+            )
         }
-    })
+
+    },
+    created: function () {
+        this.searchList(1)
+    }
+})

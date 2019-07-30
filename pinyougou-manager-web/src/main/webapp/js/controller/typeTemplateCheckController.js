@@ -27,6 +27,7 @@ var app = new Vue({
             axios.post('/typeTemplate/updateStatus/'+status,this.ids).then(
                 function (response) {
                     if (response.data.success) {
+                        app.ids=[]
                         app.searchList(1);
                     }else {
                         alert(response.data.message)

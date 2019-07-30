@@ -155,67 +155,67 @@ public class OrderServiceImpl extends CoreServiceImpl<TbOrder>  implements Order
         if(order!=null){			
 						if(StringUtils.isNotBlank(order.getPaymentType())){
 				criteria.andLike("paymentType","%"+order.getPaymentType()+"%");
-				//criteria.andPaymentTypeLike("%"+order.getPaymentType()+"%");
+				//criteria.andPaymentTypeLike("%"+OrderOne.getPaymentType()+"%");
 			}
 			if(StringUtils.isNotBlank(order.getPostFee())){
 				criteria.andLike("postFee","%"+order.getPostFee()+"%");
-				//criteria.andPostFeeLike("%"+order.getPostFee()+"%");
+				//criteria.andPostFeeLike("%"+OrderOne.getPostFee()+"%");
 			}
 			if(StringUtils.isNotBlank(order.getStatus())){
 				criteria.andLike("status","%"+order.getStatus()+"%");
-				//criteria.andStatusLike("%"+order.getStatus()+"%");
+				//criteria.andStatusLike("%"+OrderOne.getStatus()+"%");
 			}
 			if(StringUtils.isNotBlank(order.getShippingName())){
 				criteria.andLike("shippingName","%"+order.getShippingName()+"%");
-				//criteria.andShippingNameLike("%"+order.getShippingName()+"%");
+				//criteria.andShippingNameLike("%"+OrderOne.getShippingName()+"%");
 			}
 			if(StringUtils.isNotBlank(order.getShippingCode())){
 				criteria.andLike("shippingCode","%"+order.getShippingCode()+"%");
-				//criteria.andShippingCodeLike("%"+order.getShippingCode()+"%");
+				//criteria.andShippingCodeLike("%"+OrderOne.getShippingCode()+"%");
 			}
 			if(StringUtils.isNotBlank(order.getUserId())){
 				criteria.andLike("userId","%"+order.getUserId()+"%");
-				//criteria.andUserIdLike("%"+order.getUserId()+"%");
+				//criteria.andUserIdLike("%"+OrderOne.getUserId()+"%");
 			}
 			if(StringUtils.isNotBlank(order.getBuyerMessage())){
 				criteria.andLike("buyerMessage","%"+order.getBuyerMessage()+"%");
-				//criteria.andBuyerMessageLike("%"+order.getBuyerMessage()+"%");
+				//criteria.andBuyerMessageLike("%"+OrderOne.getBuyerMessage()+"%");
 			}
 			if(StringUtils.isNotBlank(order.getBuyerNick())){
 				criteria.andLike("buyerNick","%"+order.getBuyerNick()+"%");
-				//criteria.andBuyerNickLike("%"+order.getBuyerNick()+"%");
+				//criteria.andBuyerNickLike("%"+OrderOne.getBuyerNick()+"%");
 			}
 			if(StringUtils.isNotBlank(order.getBuyerRate())){
 				criteria.andLike("buyerRate","%"+order.getBuyerRate()+"%");
-				//criteria.andBuyerRateLike("%"+order.getBuyerRate()+"%");
+				//criteria.andBuyerRateLike("%"+OrderOne.getBuyerRate()+"%");
 			}
 			if(StringUtils.isNotBlank(order.getReceiverAreaName())){
 				criteria.andLike("receiverAreaName","%"+order.getReceiverAreaName()+"%");
-				//criteria.andReceiverAreaNameLike("%"+order.getReceiverAreaName()+"%");
+				//criteria.andReceiverAreaNameLike("%"+OrderOne.getReceiverAreaName()+"%");
 			}
 			if(StringUtils.isNotBlank(order.getReceiverMobile())){
 				criteria.andLike("receiverMobile","%"+order.getReceiverMobile()+"%");
-				//criteria.andReceiverMobileLike("%"+order.getReceiverMobile()+"%");
+				//criteria.andReceiverMobileLike("%"+OrderOne.getReceiverMobile()+"%");
 			}
 			if(StringUtils.isNotBlank(order.getReceiverZipCode())){
 				criteria.andLike("receiverZipCode","%"+order.getReceiverZipCode()+"%");
-				//criteria.andReceiverZipCodeLike("%"+order.getReceiverZipCode()+"%");
+				//criteria.andReceiverZipCodeLike("%"+OrderOne.getReceiverZipCode()+"%");
 			}
 			if(StringUtils.isNotBlank(order.getReceiver())){
 				criteria.andLike("receiver","%"+order.getReceiver()+"%");
-				//criteria.andReceiverLike("%"+order.getReceiver()+"%");
+				//criteria.andReceiverLike("%"+OrderOne.getReceiver()+"%");
 			}
 			if(StringUtils.isNotBlank(order.getInvoiceType())){
 				criteria.andLike("invoiceType","%"+order.getInvoiceType()+"%");
-				//criteria.andInvoiceTypeLike("%"+order.getInvoiceType()+"%");
+				//criteria.andInvoiceTypeLike("%"+OrderOne.getInvoiceType()+"%");
 			}
 			if(StringUtils.isNotBlank(order.getSourceType())){
 				criteria.andLike("sourceType","%"+order.getSourceType()+"%");
-				//criteria.andSourceTypeLike("%"+order.getSourceType()+"%");
+				//criteria.andSourceTypeLike("%"+OrderOne.getSourceType()+"%");
 			}
 			if(StringUtils.isNotBlank(order.getSellerId())){
 				criteria.andLike("sellerId","%"+order.getSellerId()+"%");
-				//criteria.andSellerIdLike("%"+order.getSellerId()+"%");
+				//criteria.andSellerIdLike("%"+OrderOne.getSellerId()+"%");
 			}
 	
 		}
