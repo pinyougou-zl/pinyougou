@@ -1,9 +1,7 @@
 package com.pinyougou.pojo;
 
-import com.alibaba.fastjson.annotation.JSONField;
-import com.entity.LongToStringSerizlizer;
+import com.entity.LongToStringSerializer;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -18,12 +16,13 @@ public class TbSeckillOrder implements Serializable {
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @JsonSerialize(using = LongToStringSerializer.class)
     private Long id;
 
     /**
      * 秒杀商品ID
      */
-    @JsonSerialize(using = LongToStringSerizlizer.class)
+
     @Column(name = "seckill_id")
     private Long seckillId;
 

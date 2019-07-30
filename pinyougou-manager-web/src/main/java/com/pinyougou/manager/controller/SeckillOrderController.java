@@ -78,7 +78,12 @@ public class SeckillOrderController {
 	@RequestMapping("/findOne/{id}")
 	public SeckillList findOne(@PathVariable(value = "id") Long id){
 
-		return seckillOrderService.findOneList(id);
+		try {
+			return seckillOrderService.findOneList(id);
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new RuntimeException("查询失败");
+		}
 	}
 	
 	/**

@@ -30,4 +30,7 @@ public interface BrandService extends CoreService<TbBrand> {
 
     PageInfo<TbBrand> oneFindPage(Integer pageNo, Integer pageSize, TbBrand brand);
 
+
+
+
 }

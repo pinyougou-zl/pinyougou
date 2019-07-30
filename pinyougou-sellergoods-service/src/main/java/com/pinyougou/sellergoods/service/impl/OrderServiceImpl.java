@@ -3,8 +3,12 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import com.entity.ItemMoney;
 import com.entity.OrderItems;
+import com.entity.OrderOne;
+import com.pinyougou.mapper.TbGoodsMapper;
 import com.pinyougou.mapper.TbOrderItemMapper;
+import com.pinyougou.pojo.TbGoods;
 import com.pinyougou.pojo.TbOrderItem;
 import com.pinyougou.sellergoods.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,6 +43,9 @@ public class OrderServiceImpl extends CoreServiceImpl<TbOrder>  implements Order
 	}
  @Autowired
 	private TbOrderItemMapper orderItemMapper;
+
+	@Autowired
+	private TbGoodsMapper goodsMapper;
 	
 
 	
@@ -67,67 +74,67 @@ public class OrderServiceImpl extends CoreServiceImpl<TbOrder>  implements Order
         if(order!=null){			
 						if(StringUtils.isNotBlank(order.getPaymentType())){
 				criteria.andLike("paymentType","%"+order.getPaymentType()+"%");
-				//criteria.andPaymentTypeLike("%"+order.getPaymentType()+"%");
+				//criteria.andPaymentTypeLike("%"+OrderOne.getPaymentType()+"%");
 			}
 			if(StringUtils.isNotBlank(order.getPostFee())){
 				criteria.andLike("postFee","%"+order.getPostFee()+"%");
-				//criteria.andPostFeeLike("%"+order.getPostFee()+"%");
+				//criteria.andPostFeeLike("%"+OrderOne.getPostFee()+"%");
 			}
 			if(StringUtils.isNotBlank(order.getStatus())){
 				criteria.andLike("status","%"+order.getStatus()+"%");
-				//criteria.andStatusLike("%"+order.getStatus()+"%");
+				//criteria.andStatusLike("%"+OrderOne.getStatus()+"%");
 			}
 			if(StringUtils.isNotBlank(order.getShippingName())){
 				criteria.andLike("shippingName","%"+order.getShippingName()+"%");
-				//criteria.andShippingNameLike("%"+order.getShippingName()+"%");
+				//criteria.andShippingNameLike("%"+OrderOne.getShippingName()+"%");
 			}
 			if(StringUtils.isNotBlank(order.getShippingCode())){
 				criteria.andLike("shippingCode","%"+order.getShippingCode()+"%");
-				//criteria.andShippingCodeLike("%"+order.getShippingCode()+"%");
+				//criteria.andShippingCodeLike("%"+OrderOne.getShippingCode()+"%");
 			}
 			if(StringUtils.isNotBlank(order.getUserId())){
 				criteria.andLike("userId","%"+order.getUserId()+"%");
-				//criteria.andUserIdLike("%"+order.getUserId()+"%");
+				//criteria.andUserIdLike("%"+OrderOne.getUserId()+"%");
 			}
 			if(StringUtils.isNotBlank(order.getBuyerMessage())){
 				criteria.andLike("buyerMessage","%"+order.getBuyerMessage()+"%");
-				//criteria.andBuyerMessageLike("%"+order.getBuyerMessage()+"%");
+				//criteria.andBuyerMessageLike("%"+OrderOne.getBuyerMessage()+"%");
 			}
 			if(StringUtils.isNotBlank(order.getBuyerNick())){
 				criteria.andLike("buyerNick","%"+order.getBuyerNick()+"%");
-				//criteria.andBuyerNickLike("%"+order.getBuyerNick()+"%");
+				//criteria.andBuyerNickLike("%"+OrderOne.getBuyerNick()+"%");
 			}
 			if(StringUtils.isNotBlank(order.getBuyerRate())){
 				criteria.andLike("buyerRate","%"+order.getBuyerRate()+"%");
-				//criteria.andBuyerRateLike("%"+order.getBuyerRate()+"%");
+				//criteria.andBuyerRateLike("%"+OrderOne.getBuyerRate()+"%");
 			}
 			if(StringUtils.isNotBlank(order.getReceiverAreaName())){
 				criteria.andLike("receiverAreaName","%"+order.getReceiverAreaName()+"%");
-				//criteria.andReceiverAreaNameLike("%"+order.getReceiverAreaName()+"%");
+				//criteria.andReceiverAreaNameLike("%"+OrderOne.getReceiverAreaName()+"%");
 			}
 			if(StringUtils.isNotBlank(order.getReceiverMobile())){
 				criteria.andLike("receiverMobile","%"+order.getReceiverMobile()+"%");
-				//criteria.andReceiverMobileLike("%"+order.getReceiverMobile()+"%");
+				//criteria.andReceiverMobileLike("%"+OrderOne.getReceiverMobile()+"%");
 			}
 			if(StringUtils.isNotBlank(order.getReceiverZipCode())){
 				criteria.andLike("receiverZipCode","%"+order.getReceiverZipCode()+"%");
-				//criteria.andReceiverZipCodeLike("%"+order.getReceiverZipCode()+"%");
+				//criteria.andReceiverZipCodeLike("%"+OrderOne.getReceiverZipCode()+"%");
 			}
 			if(StringUtils.isNotBlank(order.getReceiver())){
 				criteria.andLike("receiver","%"+order.getReceiver()+"%");
-				//criteria.andReceiverLike("%"+order.getReceiver()+"%");
+				//criteria.andReceiverLike("%"+OrderOne.getReceiver()+"%");
 			}
 			if(StringUtils.isNotBlank(order.getInvoiceType())){
 				criteria.andLike("invoiceType","%"+order.getInvoiceType()+"%");
-				//criteria.andInvoiceTypeLike("%"+order.getInvoiceType()+"%");
+				//criteria.andInvoiceTypeLike("%"+OrderOne.getInvoiceType()+"%");
 			}
 			if(StringUtils.isNotBlank(order.getSourceType())){
 				criteria.andLike("sourceType","%"+order.getSourceType()+"%");
-				//criteria.andSourceTypeLike("%"+order.getSourceType()+"%");
+				//criteria.andSourceTypeLike("%"+OrderOne.getSourceType()+"%");
 			}
 			if(StringUtils.isNotBlank(order.getSellerId())){
 				criteria.andLike("sellerId","%"+order.getSellerId()+"%");
-				//criteria.andSellerIdLike("%"+order.getSellerId()+"%");
+				//criteria.andSellerIdLike("%"+OrderOne.getSellerId()+"%");
 			}
 	
 		}
@@ -142,66 +149,25 @@ public class OrderServiceImpl extends CoreServiceImpl<TbOrder>  implements Order
 
         return pageInfo;
     }
+
 	@Override
-	public List<OrderItems> findOrderItems() {
-		Date date = new Date();
-		Example example = new Example(TbOrder.class);
-		Example.Criteria criteria = example.createCriteria();
-
-		Example exampleTbOrderItem = new Example(TbOrderItem.class);
-		Example.Criteria criteriaTbOrderItem = exampleTbOrderItem.createCriteria();
-
-		//List<TbOrder> all = orderMapper.selectByExample(example);
-
-		//List<TbOrderItem> tbOrderItems = orderItemMapper.selectByExample(criteriaTbOrderItem);
-
-		List<TbOrderItem> tbOrderItems = orderItemMapper.selectAll();
-		//创建Oders组合类集合，存储TbOrder和TbOrderItem值
-		List<OrderItems> ordersList = new ArrayList<OrderItems>();
-		//创建Oders组合类，存储TbOrder和TbOrderItem值
-		//TbOrder tbOrder = new TbOrder();
-		//遍历所有TbOrderItem对象集合元素
-
-		for (TbOrderItem tbOrderItem : tbOrderItems) {
-			OrderItems orderItems = new OrderItems();
-			//if (tbOrderItem!=null) {
-			//设置TbOrderItem属性
-			orderItems.setOrderId(tbOrderItem.getOrderId());
-			orderItems.setTitle(tbOrderItem.getTitle());
-			orderItems.setPrice(tbOrderItem.getPrice());
-			orderItems.setNum(tbOrderItem.getNum());
-			Long orderId = tbOrderItem.getOrderId();
-
-			if (orderId<=10) {
-				TbOrder tbOrder = orderMapper.selectByPrimaryKey(orderId);
-
-				Date createTime = tbOrder.getCreateTime();
-				String receiver = tbOrder.getReceiver();
-				orderItems.setCreateTime(tbOrder.getCreateTime());
-				Date endTime = tbOrder.getEndTime();
-				orderItems.setEndTime(endTime);
-
-				orderItems.setReceiver(tbOrder.getReceiver());
-				orderItems.setPayment(tbOrder.getPayment());
-
-				/*Condition condition = new Condition(TbOrder.class);
-				condition.
-				example.createCriteria().andCondition(condition);*/
-				//example.createCriteria().andIn(createTime.toString(), createTime)
-				TbOrder tbOrder1 = orderMapper.selectByPrimaryKey(example);
-				System.out.print("商品名："+tbOrderItem.getTitle() + "===");
-				System.out.println("销售额："+tbOrder1.getPayment());
-
-				ordersList.add(orderItems);
-			}
-
-
-		}
-
-
-
-		System.out.println("ordersList值=========" + ordersList);
-		return ordersList;
+	public List<ItemMoney> findItemMoney(Long startTime, Long endTime) {
+		return null;
 	}
+
+    @Override
+    public OrderOne findByOrderId(Long id) {
+		OrderOne orderOne = new OrderOne();
+		//通过id查询订单详情
+
+		TbOrderItem tbOrderItem = orderItemMapper.selectByPrimaryKey(id);
+		//通过订单详情里面的goodId查询goodsName
+		TbGoods tbGoods = goodsMapper.selectByPrimaryKey(tbOrderItem.getGoodsId());
+		orderOne.setOrderItem(tbOrderItem);
+		orderOne.setGoodsName(tbGoods.getGoodsName());
+		return orderOne;
+
+	}
+
 
 }

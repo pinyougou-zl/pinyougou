@@ -1,10 +1,11 @@
 package com.pinyougou.shop.controller;
 
 import com.alibaba.dubbo.config.annotation.Reference;
+import com.entity.ItemMoney;
 import com.entity.OrderItems;
 import com.entity.Result;
 import com.github.pagehelper.PageInfo;
-//import com.pinyougou.order.service.OrderService;
+//import com.pinyougou.OrderOne.service.OrderService;
 import com.pinyougou.pojo.TbOrder;
 import com.pinyougou.sellergoods.service.OrderService;
 import org.springframework.web.bind.annotation.*;
@@ -125,5 +126,14 @@ public class OrderController {
                                       @RequestBody TbOrder order) {
         return orderService.findPage(pageNo, pageSize, order);
     }
-	
+
+	@RequestMapping("/findItemMoney/{startTime}/{endTime}")
+    public List<ItemMoney> findItemMoney(@PathVariable(value = "startTime")Long startTime, @PathVariable(value = "endTime") Long endTime) {
+
+		try {
+			return orderService.findItemMoney(startTime,endTime);
+		} catch (Exception e) {
+			throw new RuntimeException("查询失败");
+		}
+	}
 }

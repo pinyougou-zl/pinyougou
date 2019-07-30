@@ -75,7 +75,7 @@ public class BrandServiceImpl extends CoreServiceImpl<TbBrand> implements BrandS
 */
     /**
      * 回显操作
-     * @param id
+     * @param
      * @return
      */
     /*@Override
@@ -148,7 +148,7 @@ public class BrandServiceImpl extends CoreServiceImpl<TbBrand> implements BrandS
             }
 
         }
-        List<TbBrand> all = brandMapper.selectByExample(example);
+        List<TbBrand> all = tbBrandMapper.selectByExample(example);
         PageInfo<TbBrand> info = new PageInfo<TbBrand>(all);
         //序列化再反序列化
         String s = JSON.toJSONString(info);
@@ -157,4 +157,9 @@ public class BrandServiceImpl extends CoreServiceImpl<TbBrand> implements BrandS
         return pageInfo;
 
     }
+
+
+
+
+
 }

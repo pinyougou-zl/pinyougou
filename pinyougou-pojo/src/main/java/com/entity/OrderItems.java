@@ -1,8 +1,5 @@
 package com.entity;
 
-import com.pinyougou.pojo.TbOrder;
-import com.pinyougou.pojo.TbOrderItem;
-
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;

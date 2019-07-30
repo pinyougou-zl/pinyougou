@@ -1,6 +1,7 @@
 package com.pinyougou.pojo;
 
 import java.io.Serializable;
+import java.util.List;
 import javax.persistence.*;
 
 @Table(name = "tb_item_cat")
@@ -44,7 +45,6 @@ public class TbItemCat implements Serializable {
     @Column(name = "sellerId")
     private String sellerId;
 
-    private static final long serialVersionUID = 1L;
 
 
     public String getStatus() {

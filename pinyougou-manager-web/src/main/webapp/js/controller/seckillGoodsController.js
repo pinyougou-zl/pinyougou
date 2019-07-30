@@ -14,6 +14,7 @@ var app = new Vue({
         updateStatus:function (status) {
             axios.post('/seckillGoods/updateStatus?status='+status,this.ids).then(function (response) {
                 if(response.data.success) {
+                    app.ids=[]
                     app.searchList(1);
                 }
             });
