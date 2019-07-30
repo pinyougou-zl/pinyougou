@@ -76,40 +76,5 @@ public class SpecificationOptionServiceImpl extends CoreServiceImpl<TbSpecificat
 
         return pageInfo;
     }
-
-    /**
-     * 防冲突
-     *================================================
-     * @param pageNo
-     * @param pageSize
-     * @param specificationOption
-     * @return
-     */
-    @Override
-    public PageInfo<TbSpecificationOption> oneFindPage(Integer pageNo, Integer pageSize, TbSpecificationOption specificationOption) {
-        PageHelper.startPage(pageNo,pageSize);
-
-        Example example = new Example(TbSpecificationOption.class);
-        Example.Criteria criteria = example.createCriteria();
-
-        if(specificationOption!=null){
-            if(StringUtils.isNotBlank(specificationOption.getOptionName())){
-                criteria.andLike("optionName","%"+specificationOption.getOptionName()+"%");
-                //criteria.andOptionNameLike("%"+specificationOption.getOptionName()+"%");
-            }
-            if(StringUtils.isNotBlank(specificationOption.getStatus())){
-                criteria.andEqualTo("status",specificationOption.getStatus());
-                //criteria.andOptionNameLike("%"+specificationOption.getOptionName()+"%");
-            }
-
-        }
-        List<TbSpecificationOption> all = specificationOptionMapper.selectByExample(example);
-        PageInfo<TbSpecificationOption> info = new PageInfo<TbSpecificationOption>(all);
-        //序列化再反序列化
-        String s = JSON.toJSONString(info);
-        PageInfo<TbSpecificationOption> pageInfo = JSON.parseObject(s, PageInfo.class);
-
-        return pageInfo;
-    }
 	
 }

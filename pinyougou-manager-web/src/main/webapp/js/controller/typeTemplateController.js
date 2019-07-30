@@ -23,7 +23,6 @@ var app = new Vue({
             });
         },
 
-
         //添加行
         addTableRow:function () {
             this.entity.customAttributeItems.push({});

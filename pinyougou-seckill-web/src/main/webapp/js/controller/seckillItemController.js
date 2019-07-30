@@ -64,6 +64,7 @@ var app = new Vue({
                             window.location.href = "http://localhost:9111/page/login?url="+url;
                         } else {
                             app.messageInfo = response.data.message;
+                            alert(response.data.message);
                         }
                     }
                 })

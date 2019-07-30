@@ -7,15 +7,9 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.pinyougou.common.util.IdWorker;
 import com.pinyougou.core.service.CoreServiceImpl;
-import com.pinyougou.mapper.TbItemMapper;
-import com.pinyougou.mapper.TbOrderItemMapper;
-import com.pinyougou.mapper.TbOrderMapper;
-import com.pinyougou.mapper.TbPayLogMapper;
+import com.pinyougou.mapper.*;
 import com.pinyougou.order.service.OrderService;
-import com.pinyougou.pojo.TbItem;
-import com.pinyougou.pojo.TbOrder;
-import com.pinyougou.pojo.TbOrderItem;
-import com.pinyougou.pojo.TbPayLog;
+import com.pinyougou.pojo.*;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -57,6 +51,9 @@ public class OrderServiceImpl extends CoreServiceImpl<TbOrder>  implements Order
 		super(orderMapper, TbOrder.class);
 		this.orderMapper=orderMapper;
 	}
+
+	@Autowired
+	private TbGoodsMapper goodsMapper;
 
 	/**
 	 * 重写add方法
@@ -155,67 +152,67 @@ public class OrderServiceImpl extends CoreServiceImpl<TbOrder>  implements Order
         if(order!=null){			
 						if(StringUtils.isNotBlank(order.getPaymentType())){
 				criteria.andLike("paymentType","%"+order.getPaymentType()+"%");
-				//criteria.andPaymentTypeLike("%"+OrderOne.getPaymentType()+"%");
+				//criteria.andPaymentTypeLike("%"+order.getPaymentType()+"%");
 			}
 			if(StringUtils.isNotBlank(order.getPostFee())){
 				criteria.andLike("postFee","%"+order.getPostFee()+"%");
-				//criteria.andPostFeeLike("%"+OrderOne.getPostFee()+"%");
+				//criteria.andPostFeeLike("%"+order.getPostFee()+"%");
 			}
 			if(StringUtils.isNotBlank(order.getStatus())){
 				criteria.andLike("status","%"+order.getStatus()+"%");
-				//criteria.andStatusLike("%"+OrderOne.getStatus()+"%");
+				//criteria.andStatusLike("%"+order.getStatus()+"%");
 			}
 			if(StringUtils.isNotBlank(order.getShippingName())){
 				criteria.andLike("shippingName","%"+order.getShippingName()+"%");
-				//criteria.andShippingNameLike("%"+OrderOne.getShippingName()+"%");
+				//criteria.andShippingNameLike("%"+order.getShippingName()+"%");
 			}
 			if(StringUtils.isNotBlank(order.getShippingCode())){
 				criteria.andLike("shippingCode","%"+order.getShippingCode()+"%");
-				//criteria.andShippingCodeLike("%"+OrderOne.getShippingCode()+"%");
+				//criteria.andShippingCodeLike("%"+order.getShippingCode()+"%");
 			}
 			if(StringUtils.isNotBlank(order.getUserId())){
 				criteria.andLike("userId","%"+order.getUserId()+"%");
-				//criteria.andUserIdLike("%"+OrderOne.getUserId()+"%");
+				//criteria.andUserIdLike("%"+order.getUserId()+"%");
 			}
 			if(StringUtils.isNotBlank(order.getBuyerMessage())){
 				criteria.andLike("buyerMessage","%"+order.getBuyerMessage()+"%");
-				//criteria.andBuyerMessageLike("%"+OrderOne.getBuyerMessage()+"%");
+				//criteria.andBuyerMessageLike("%"+order.getBuyerMessage()+"%");
 			}
 			if(StringUtils.isNotBlank(order.getBuyerNick())){
 				criteria.andLike("buyerNick","%"+order.getBuyerNick()+"%");
-				//criteria.andBuyerNickLike("%"+OrderOne.getBuyerNick()+"%");
+				//criteria.andBuyerNickLike("%"+order.getBuyerNick()+"%");
 			}
 			if(StringUtils.isNotBlank(order.getBuyerRate())){
 				criteria.andLike("buyerRate","%"+order.getBuyerRate()+"%");
-				//criteria.andBuyerRateLike("%"+OrderOne.getBuyerRate()+"%");
+				//criteria.andBuyerRateLike("%"+order.getBuyerRate()+"%");
 			}
 			if(StringUtils.isNotBlank(order.getReceiverAreaName())){
 				criteria.andLike("receiverAreaName","%"+order.getReceiverAreaName()+"%");
-				//criteria.andReceiverAreaNameLike("%"+OrderOne.getReceiverAreaName()+"%");
+				//criteria.andReceiverAreaNameLike("%"+order.getReceiverAreaName()+"%");
 			}
 			if(StringUtils.isNotBlank(order.getReceiverMobile())){
 				criteria.andLike("receiverMobile","%"+order.getReceiverMobile()+"%");
-				//criteria.andReceiverMobileLike("%"+OrderOne.getReceiverMobile()+"%");
+				//criteria.andReceiverMobileLike("%"+order.getReceiverMobile()+"%");
 			}
 			if(StringUtils.isNotBlank(order.getReceiverZipCode())){
 				criteria.andLike("receiverZipCode","%"+order.getReceiverZipCode()+"%");
-				//criteria.andReceiverZipCodeLike("%"+OrderOne.getReceiverZipCode()+"%");
+				//criteria.andReceiverZipCodeLike("%"+order.getReceiverZipCode()+"%");
 			}
 			if(StringUtils.isNotBlank(order.getReceiver())){
 				criteria.andLike("receiver","%"+order.getReceiver()+"%");
-				//criteria.andReceiverLike("%"+OrderOne.getReceiver()+"%");
+				//criteria.andReceiverLike("%"+order.getReceiver()+"%");
 			}
 			if(StringUtils.isNotBlank(order.getInvoiceType())){
 				criteria.andLike("invoiceType","%"+order.getInvoiceType()+"%");
-				//criteria.andInvoiceTypeLike("%"+OrderOne.getInvoiceType()+"%");
+				//criteria.andInvoiceTypeLike("%"+order.getInvoiceType()+"%");
 			}
 			if(StringUtils.isNotBlank(order.getSourceType())){
 				criteria.andLike("sourceType","%"+order.getSourceType()+"%");
-				//criteria.andSourceTypeLike("%"+OrderOne.getSourceType()+"%");
+				//criteria.andSourceTypeLike("%"+order.getSourceType()+"%");
 			}
 			if(StringUtils.isNotBlank(order.getSellerId())){
 				criteria.andLike("sellerId","%"+order.getSellerId()+"%");
-				//criteria.andSellerIdLike("%"+OrderOne.getSellerId()+"%");
+				//criteria.andSellerIdLike("%"+order.getSellerId()+"%");
 			}
 	
 		}
@@ -237,74 +234,11 @@ public class OrderServiceImpl extends CoreServiceImpl<TbOrder>  implements Order
 	public TbPayLog searchPayLogFromRedis(String userId) {
 		return (TbPayLog) redisTemplate.boundHashOps("payLog").get(userId);
 	}
-	
-	@Override
-	public List<OrderItems> findOrderItems() {
-		Date date = new Date();
-		Example example = new Example(TbOrder.class);
-		Example.Criteria criteria = example.createCriteria();
-
-		Example exampleTbOrderItem = new Example(TbOrderItem.class);
-		Example.Criteria criteriaTbOrderItem = exampleTbOrderItem.createCriteria();
-
-		//List<TbOrder> all = orderMapper.selectByExample(example);
-
-		//List<TbOrderItem> tbOrderItems = orderItemMapper.selectByExample(criteriaTbOrderItem);
-
-		List<TbOrderItem> tbOrderItems = orderItemMapper.selectAll();
-		//创建Oders组合类集合，存储TbOrder和TbOrderItem值
-		List<OrderItems> ordersList = new ArrayList<OrderItems>();
-		//创建Oders组合类，存储TbOrder和TbOrderItem值
-		//TbOrder tbOrder = new TbOrder();
-		//遍历所有TbOrderItem对象集合元素
-
-		for (TbOrderItem tbOrderItem : tbOrderItems) {
-			OrderItems orderItems = new OrderItems();
-			//if (tbOrderItem!=null) {
-			//设置TbOrderItem属性
-			orderItems.setOrderId(tbOrderItem.getOrderId());
-			orderItems.setTitle(tbOrderItem.getTitle());
-			orderItems.setPrice(tbOrderItem.getPrice());
-			orderItems.setNum(tbOrderItem.getNum());
-			Long orderId = tbOrderItem.getOrderId();
-
-			if (orderId<=10) {
-				TbOrder tbOrder = orderMapper.selectByPrimaryKey(orderId);
-
-				Date createTime = tbOrder.getCreateTime();
-				String receiver = tbOrder.getReceiver();
-				orderItems.setCreateTime(tbOrder.getCreateTime());
-				Date endTime = tbOrder.getEndTime();
-				orderItems.setEndTime(endTime);
-
-				orderItems.setReceiver(tbOrder.getReceiver());
-				orderItems.setPayment(tbOrder.getPayment());
-
-				/*Condition condition = new Condition(TbOrder.class);
-				condition.
-				example.createCriteria().andCondition(condition);*/
-				//example.createCriteria().andIn(createTime.toString(), createTime)
-				TbOrder tbOrder1 = orderMapper.selectByPrimaryKey(example);
-				System.out.print("商品名："+tbOrderItem.getTitle() + "===");
-				System.out.println("销售额："+tbOrder1.getPayment());
-
-				ordersList.add(orderItems);
-			}
-
-
-		}
-
-
-
-		System.out.println("ordersList值=========" + ordersList);
-		return ordersList;
-	}
-
 
 	/**
 	 * 修改订单的状态
-	 * @param out_trade_no
-	 * @param transaction_id
+	 * @param out_trade_no 支付订单号
+	 * @param transaction_id 交易号
 	 */
 	@Override
 	public void updateorderStatus(String out_trade_no, String transaction_id) {
@@ -318,14 +252,40 @@ public class OrderServiceImpl extends CoreServiceImpl<TbOrder>  implements Order
 		String orderList = tbPayLog.getOrderList();  //获取订单号列表
 		String[] split = orderList.split(",");  //获取订单号的数组
 		//改变状态
-		for (String s : split) {  //取得是订单号
+		for (String s : split) {  //取得是订单号(order_id)
 			TbOrder tbOrder = orderMapper.selectByPrimaryKey(Long.parseLong(s));
 			if(tbOrder != null) {
 				tbOrder.setStatus("2");
+				//更新销售额
+				updateGoodsSellerNumber(tbOrder);
 				orderMapper.updateByPrimaryKey(tbOrder);
 			}
 		}
+
 		//3. 清除缓存中的支付日志对象
 		redisTemplate.boundHashOps("payLog").delete(tbPayLog.getUserId());
+	}
+
+	/**
+	 * 支付成功后，更新商品的销售额
+	 * @param tbOrder
+	 */
+	public void updateGoodsSellerNumber(TbOrder tbOrder) {
+		//获取订单详情
+		TbOrderItem orderItem = new TbOrderItem();
+		orderItem.setOrderId(tbOrder.getOrderId());
+		List<TbOrderItem> orderItemList = orderItemMapper.select(orderItem);
+		//循环订单详情，获取到每个商品
+		if (orderItemList != null) {
+			for (TbOrderItem tbOrderItem : orderItemList) {
+				//获取到商品数据
+				Long goodsId = tbOrderItem.getGoodsId();
+				TbGoods tbGoods = goodsMapper.selectByPrimaryKey(goodsId);
+				//销售额根据销售数量增加
+				tbGoods.setSellerNumber(tbGoods.getSellerNumber()+tbOrderItem.getNum());
+				goodsMapper.updateByPrimaryKeySelective(tbGoods);
+			}
+		}
+
 	}
 }

@@ -4,8 +4,10 @@ import com.alibaba.dubbo.config.annotation.Reference;
 import com.entity.Result;
 import com.pinyougou.order.service.OrderService;
 import com.pinyougou.pay.service.WeixinPayService;
+import com.pinyougou.pojo.TbOrder;
 import com.pinyougou.pojo.TbPayLog;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -71,5 +73,25 @@ public class PayController {
             }
         }
         return result;
+    }
+
+
+    /**
+     * 无实际作用，仅做测试
+     * 测试更新商品销售额功能是否生效（实测有效）
+     * @return
+     */
+    @RequestMapping("/testSeller")
+    public Result testSeller(){
+        try {
+            TbOrder tbOrder = new TbOrder();
+            tbOrder.setOrderId(1L);
+            orderService.updateGoodsSellerNumber(tbOrder);
+            return new Result(true, "成功");
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new Result(false, "失败");
+        }
+
     }
 }

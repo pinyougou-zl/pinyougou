@@ -10,8 +10,4 @@
     <result column="name" property="name" jdbcType="VARCHAR" />
     <result column="type_id" property="typeId" jdbcType="BIGINT" />
   </resultMap>
-
-  <select id="selectByParentId" resultType="com.pinyougou.pojo.TbItemCat">
-    SELECT * FROM tb_item_cat WHERE parent_id = #{id} LIMIT 15
-  </select>
 </mapper>

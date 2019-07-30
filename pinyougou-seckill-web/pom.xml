@@ -51,6 +51,11 @@
             <artifactId>pinyougou-order-interface</artifactId>
             <version>1.1-SNAPSHOT</version>
         </dependency>
+        <dependency>
+            <groupId>com.pinyougou</groupId>
+            <artifactId>pinyougou-user-interface</artifactId>
+            <version>1.1-SNAPSHOT</version>
+        </dependency>
 
 
         <!-- Spring -->

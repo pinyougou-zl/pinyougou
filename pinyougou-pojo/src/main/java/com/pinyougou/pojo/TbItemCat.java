@@ -1,7 +1,6 @@
 package com.pinyougou.pojo;
 
 import java.io.Serializable;
-import java.util.List;
 import javax.persistence.*;
 
 @Table(name = "tb_item_cat")
@@ -32,36 +31,7 @@ public class TbItemCat implements Serializable {
     @Column(name = "type_id")
     private Long typeId;
 
-
-    /**
-     * 审核状态
-     */
-    @Column(name = "status")
-    private String status;
-
-    /**
-     *商家id
-     */
-    @Column(name = "sellerId")
-    private String sellerId;
-
-
-
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
-    public String getSellerId() {
-        return sellerId;
-    }
-
-    public void setSellerId(String sellerId) {
-        this.sellerId = sellerId;
-    }
+    private static final long serialVersionUID = 1L;
 
     /**
      * 获取类目ID

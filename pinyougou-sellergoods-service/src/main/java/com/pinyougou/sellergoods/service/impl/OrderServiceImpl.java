@@ -1,15 +1,6 @@
 package com.pinyougou.sellergoods.service.impl;
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
-import com.entity.ItemMoney;
-import com.entity.OrderItems;
-import com.entity.OrderOne;
-import com.pinyougou.mapper.TbGoodsMapper;
-import com.pinyougou.mapper.TbOrderItemMapper;
-import com.pinyougou.pojo.TbGoods;
-import com.pinyougou.pojo.TbOrderItem;
 import com.pinyougou.sellergoods.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import com.alibaba.dubbo.config.annotation.Service;
@@ -41,11 +32,8 @@ public class OrderServiceImpl extends CoreServiceImpl<TbOrder>  implements Order
 		super(orderMapper, TbOrder.class);
 		this.orderMapper=orderMapper;
 	}
- @Autowired
-	private TbOrderItemMapper orderItemMapper;
 
-	@Autowired
-	private TbGoodsMapper goodsMapper;
+	
 	
 
 	
@@ -74,74 +62,71 @@ public class OrderServiceImpl extends CoreServiceImpl<TbOrder>  implements Order
         if(order!=null){			
 						if(StringUtils.isNotBlank(order.getPaymentType())){
 				criteria.andLike("paymentType","%"+order.getPaymentType()+"%");
-				//criteria.andPaymentTypeLike("%"+OrderOne.getPaymentType()+"%");
+				//criteria.andPaymentTypeLike("%"+order.getPaymentType()+"%");
 			}
 			if(StringUtils.isNotBlank(order.getPostFee())){
 				criteria.andLike("postFee","%"+order.getPostFee()+"%");
-				//criteria.andPostFeeLike("%"+OrderOne.getPostFee()+"%");
+				//criteria.andPostFeeLike("%"+order.getPostFee()+"%");
 			}
 			if(StringUtils.isNotBlank(order.getStatus())){
 				criteria.andLike("status","%"+order.getStatus()+"%");
-				//criteria.andStatusLike("%"+OrderOne.getStatus()+"%");
+				//criteria.andStatusLike("%"+order.getStatus()+"%");
 			}
 			if(StringUtils.isNotBlank(order.getShippingName())){
 				criteria.andLike("shippingName","%"+order.getShippingName()+"%");
-				//criteria.andShippingNameLike("%"+OrderOne.getShippingName()+"%");
+				//criteria.andShippingNameLike("%"+order.getShippingName()+"%");
 			}
 			if(StringUtils.isNotBlank(order.getShippingCode())){
 				criteria.andLike("shippingCode","%"+order.getShippingCode()+"%");
-				//criteria.andShippingCodeLike("%"+OrderOne.getShippingCode()+"%");
+				//criteria.andShippingCodeLike("%"+order.getShippingCode()+"%");
 			}
 			if(StringUtils.isNotBlank(order.getUserId())){
 				criteria.andLike("userId","%"+order.getUserId()+"%");
-				//criteria.andUserIdLike("%"+OrderOne.getUserId()+"%");
+				//criteria.andUserIdLike("%"+order.getUserId()+"%");
 			}
 			if(StringUtils.isNotBlank(order.getBuyerMessage())){
 				criteria.andLike("buyerMessage","%"+order.getBuyerMessage()+"%");
-				//criteria.andBuyerMessageLike("%"+OrderOne.getBuyerMessage()+"%");
+				//criteria.andBuyerMessageLike("%"+order.getBuyerMessage()+"%");
 			}
 			if(StringUtils.isNotBlank(order.getBuyerNick())){
 				criteria.andLike("buyerNick","%"+order.getBuyerNick()+"%");
-				//criteria.andBuyerNickLike("%"+OrderOne.getBuyerNick()+"%");
+				//criteria.andBuyerNickLike("%"+order.getBuyerNick()+"%");
 			}
 			if(StringUtils.isNotBlank(order.getBuyerRate())){
 				criteria.andLike("buyerRate","%"+order.getBuyerRate()+"%");
-				//criteria.andBuyerRateLike("%"+OrderOne.getBuyerRate()+"%");
+				//criteria.andBuyerRateLike("%"+order.getBuyerRate()+"%");
 			}
 			if(StringUtils.isNotBlank(order.getReceiverAreaName())){
 				criteria.andLike("receiverAreaName","%"+order.getReceiverAreaName()+"%");
-				//criteria.andReceiverAreaNameLike("%"+OrderOne.getReceiverAreaName()+"%");
+				//criteria.andReceiverAreaNameLike("%"+order.getReceiverAreaName()+"%");
 			}
 			if(StringUtils.isNotBlank(order.getReceiverMobile())){
 				criteria.andLike("receiverMobile","%"+order.getReceiverMobile()+"%");
-				//criteria.andReceiverMobileLike("%"+OrderOne.getReceiverMobile()+"%");
+				//criteria.andReceiverMobileLike("%"+order.getReceiverMobile()+"%");
 			}
 			if(StringUtils.isNotBlank(order.getReceiverZipCode())){
 				criteria.andLike("receiverZipCode","%"+order.getReceiverZipCode()+"%");
-				//criteria.andReceiverZipCodeLike("%"+OrderOne.getReceiverZipCode()+"%");
+				//criteria.andReceiverZipCodeLike("%"+order.getReceiverZipCode()+"%");
 			}
 			if(StringUtils.isNotBlank(order.getReceiver())){
 				criteria.andLike("receiver","%"+order.getReceiver()+"%");
-				//criteria.andReceiverLike("%"+OrderOne.getReceiver()+"%");
+				//criteria.andReceiverLike("%"+order.getReceiver()+"%");
 			}
 			if(StringUtils.isNotBlank(order.getInvoiceType())){
 				criteria.andLike("invoiceType","%"+order.getInvoiceType()+"%");
-				//criteria.andInvoiceTypeLike("%"+OrderOne.getInvoiceType()+"%");
+				//criteria.andInvoiceTypeLike("%"+order.getInvoiceType()+"%");
 			}
 			if(StringUtils.isNotBlank(order.getSourceType())){
 				criteria.andLike("sourceType","%"+order.getSourceType()+"%");
-				//criteria.andSourceTypeLike("%"+OrderOne.getSourceType()+"%");
+				//criteria.andSourceTypeLike("%"+order.getSourceType()+"%");
 			}
 			if(StringUtils.isNotBlank(order.getSellerId())){
 				criteria.andLike("sellerId","%"+order.getSellerId()+"%");
-				//criteria.andSellerIdLike("%"+OrderOne.getSellerId()+"%");
+				//criteria.andSellerIdLike("%"+order.getSellerId()+"%");
 			}
 	
 		}
         List<TbOrder> all = orderMapper.selectByExample(example);
-		 for (TbOrder tbOrder : all) {
-			 System.out.println(tbOrder.getPaymentTime());
-		 }
         PageInfo<TbOrder> info = new PageInfo<TbOrder>(all);
         //序列化再反序列化
         String s = JSON.toJSONString(info);
@@ -149,25 +134,5 @@ public class OrderServiceImpl extends CoreServiceImpl<TbOrder>  implements Order
 
         return pageInfo;
     }
-
-	@Override
-	public List<ItemMoney> findItemMoney(Long startTime, Long endTime) {
-		return null;
-	}
-
-    @Override
-    public OrderOne findByOrderId(Long id) {
-		OrderOne orderOne = new OrderOne();
-		//通过id查询订单详情
-
-		TbOrderItem tbOrderItem = orderItemMapper.selectByPrimaryKey(id);
-		//通过订单详情里面的goodId查询goodsName
-		TbGoods tbGoods = goodsMapper.selectByPrimaryKey(tbOrderItem.getGoodsId());
-		orderOne.setOrderItem(tbOrderItem);
-		orderOne.setGoodsName(tbGoods.getGoodsName());
-		return orderOne;
-
-	}
-
-
+	
 }

@@ -8,8 +8,13 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/login")
 public class LoginController {
 
+    /**
+     * 登录时获取登录名
+     * @return
+     */
     @RequestMapping("/name")
     public String getName() {
+
         return SecurityContextHolder.getContext().getAuthentication().getName();
     }
 

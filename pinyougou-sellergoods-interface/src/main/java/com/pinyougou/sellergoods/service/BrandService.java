@@ -26,11 +26,4 @@ public interface BrandService extends CoreService<TbBrand> {
     //前端的条件查询，查询出来的需要进行分页
     //进行一个方法的重载
     PageInfo<TbBrand> findPage(Integer pageNo,Integer pageSize,TbBrand brand);
-
-
-    PageInfo<TbBrand> oneFindPage(Integer pageNo, Integer pageSize, TbBrand brand);
-
-
-
-
 }

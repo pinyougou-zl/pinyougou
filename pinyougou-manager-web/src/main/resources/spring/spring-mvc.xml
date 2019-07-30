@@ -49,5 +49,4 @@
     <!--导入security配置文件-->
     <import resource="spring-security.xml"></import>
     <import resource="spring-producer.xml"></import>
-    <!--<import resource="spring-FastJson.xml"></import>-->
 </beans>

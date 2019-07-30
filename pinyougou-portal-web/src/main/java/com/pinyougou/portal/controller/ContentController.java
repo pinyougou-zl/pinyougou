@@ -108,7 +108,6 @@ public class ContentController {
     @RequestMapping("/findByCategoryId/{categoryId}")
 	public List<TbContent> findByCategoryId(@PathVariable(value = "categoryId") Long categoryId) {
 		System.out.println(contentService);
-		List<TbContent> byCategoryId = contentService.findByCategoryId(categoryId);
-		return byCategoryId;
+		return contentService.findByCategoryId(categoryId);
 	}
 }

@@ -1377,7 +1377,7 @@ function assertArgFn(arg, name, acceptArrayAnnotation) {
 
 /**
  * throw error if the name given is hasOwnProperty
- * @param  {String} name    the name to test
+ * @param  {String} name    the name to test.html
  * @param  {String} context the context in which the name is used, such as module or directive
  */
 function assertNotHasOwnProperty(name, context) {
@@ -4131,7 +4131,7 @@ function Browser(window, document, $log, $sniffer) {
    */
   self.notifyWhenNoOutstandingRequests = function(callback) {
     // force browser to execute all pollFns - this is needed so that cookies and other pollers fire
-    // at some deterministic time in respect to the test runner's actions. Leaving things up to the
+    // at some deterministic time in respect to the test.html runner's actions. Leaving things up to the
     // regular poller would result in flaky tests.
     forEach(pollFns, function(pollFn){ pollFn(); });
 
@@ -4405,7 +4405,7 @@ function Browser(window, document, $log, $sniffer) {
    * @description
    * Executes a fn asynchronously via `setTimeout(fn, delay)`.
    *
-   * Unlike when calling `setTimeout` directly, in test this function is mocked and instead of using
+   * Unlike when calling `setTimeout` directly, in test.html this function is mocked and instead of using
    * `setTimeout` in tests, the fns are queued in an array, which can be programmatically flushed
    * via `$browser.defer.flush()`.
    *
@@ -5743,7 +5743,7 @@ function $CompileProvider($provide, $$sanitizeUriProvider) {
           } catch (e) {
             // turns out that under some circumstances IE9 throws errors when one attempts to read
             // comment's node value.
-            // Just ignore it and continue. (Can't seem to reproduce in test case.)
+            // Just ignore it and continue. (Can't seem to reproduce in test.html case.)
           }
           break;
       }
@@ -9447,7 +9447,7 @@ var promiseWarning;
 // disallow any "dotted" access to any member named "constructor".
 //
 // For reflective calls (a[b]) we check that the value of the lookup is not the Function constructor
-// while evaluating the expression, which is a stronger but more expensive test. Since reflective
+// while evaluating the expression, which is a stronger but more expensive test.html. Since reflective
 // calls are expensive anyway, this is not such a big deal compared to static dereferencing.
 //
 // This sandboxing technique is not perfect and doesn't aim to be. The goal is to prevent exploits
@@ -11305,7 +11305,7 @@ function $RootScopeProvider(){
      *
      * Here is a simple scope snippet to show how you can interact with the scope.
      * <pre>
-     * <file src="./test/ng/rootScopeSpec.js" tag="docs1" />
+     * <file src="./test.html/ng/rootScopeSpec.js" tag="docs1" />
      * </pre>
      *
      * # Inheritance
@@ -13764,7 +13764,7 @@ function urlIsSameOrigin(requestUrl) {
      <doc:scenario>
       it('should display the greeting in the input box', function() {
        input('greeting').enter('Hello, E2E Tests');
-       // If we click the button it will block the test runner
+       // If we click the button it will block the test.html runner
        // element(':button').click();
       });
      </doc:scenario>

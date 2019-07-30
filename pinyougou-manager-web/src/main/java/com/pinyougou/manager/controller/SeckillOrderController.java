@@ -1,7 +1,6 @@
 package com.pinyougou.manager.controller;
 import java.util.List;
 
-import com.entity.SeckillList;
 import org.springframework.web.bind.annotation.*;
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.pinyougou.pojo.TbSeckillOrder;
@@ -76,14 +75,8 @@ public class SeckillOrderController {
 	 * @return
 	 */
 	@RequestMapping("/findOne/{id}")
-	public SeckillList findOne(@PathVariable(value = "id") Long id){
-
-		try {
-			return seckillOrderService.findOneList(id);
-		} catch (Exception e) {
-			e.printStackTrace();
-			throw new RuntimeException("查询失败");
-		}
+	public TbSeckillOrder findOne(@PathVariable(value = "id") Long id){
+		return seckillOrderService.findOne(id);		
 	}
 	
 	/**

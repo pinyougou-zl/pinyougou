@@ -106,24 +106,5 @@ public class TypeTemplateController {
                                       @RequestBody TbTypeTemplate typeTemplate) {
         return typeTemplateService.findPage(pageNo, pageSize, typeTemplate);
     }
-
-    //6、在type_templateCheck.html添加点击事件进行审核：已审核 updatestatus（“1”）驳回updateStatus（“2”） 删除 updateStatus（“3”）
-
-	/**
-	 * 修改审核状态
-	 * @param ids
-	 * @param status
-	 * @return
-	 */
-	@RequestMapping("/updateStatus/{status}")
-	public Result updateStatus(@RequestBody Long[] ids,@PathVariable String status) {
-		try {
-			typeTemplateService.updateStatus(ids,status);
-			return new Result(true,"修改成功");
-		} catch (Exception e) {
-			e.printStackTrace();
-			return new Result(false,"修改失败");
-		}
-	}
 	
 }

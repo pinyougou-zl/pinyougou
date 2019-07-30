@@ -1,12 +1,7 @@
 package com.pinyougou.sellergoods.service.impl;
 import java.util.Arrays;
 import java.util.List;
-
-import com.alibaba.dubbo.config.annotation.Reference;
-import com.entity.SeckillList;
-import com.pinyougou.mapper.TbSeckillGoodsMapper;
-import com.pinyougou.pojo.TbSeckillGoods;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Autowired; 
 import com.alibaba.dubbo.config.annotation.Service;
 import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageHelper;
@@ -40,9 +35,6 @@ public class SeckillOrderServiceImpl extends CoreServiceImpl<TbSeckillOrder>  im
 		this.seckillOrderMapper=seckillOrderMapper;
 	}
 
-	@Autowired
-	private TbSeckillGoodsMapper seckillGoodsMapper;
-
 	
 	
 
@@ -70,7 +62,7 @@ public class SeckillOrderServiceImpl extends CoreServiceImpl<TbSeckillOrder>  im
         Example.Criteria criteria = example.createCriteria();
 
         if(seckillOrder!=null){			
-        	if(StringUtils.isNotBlank(seckillOrder.getUserId())){
+						if(StringUtils.isNotBlank(seckillOrder.getUserId())){
 				criteria.andLike("userId","%"+seckillOrder.getUserId()+"%");
 				//criteria.andUserIdLike("%"+seckillOrder.getUserId()+"%");
 			}
@@ -98,9 +90,6 @@ public class SeckillOrderServiceImpl extends CoreServiceImpl<TbSeckillOrder>  im
 				criteria.andLike("transactionId","%"+seckillOrder.getTransactionId()+"%");
 				//criteria.andTransactionIdLike("%"+seckillOrder.getTransactionId()+"%");
 			}
-			if (seckillOrder.getId()!=null) {
-				criteria.andEqualTo("id",seckillOrder.getId());
-			}
 	
 		}
         List<TbSeckillOrder> all = seckillOrderMapper.selectByExample(example);
@@ -111,18 +100,5 @@ public class SeckillOrderServiceImpl extends CoreServiceImpl<TbSeckillOrder>  im
 
         return pageInfo;
     }
-
-	@Override
-	public SeckillList findOneList(Long id) {
-		SeckillList seckillList = new SeckillList();
-		TbSeckillOrder seckillOrder = seckillOrderMapper.selectByPrimaryKey(id);
-		Long seckillId = seckillOrder.getSeckillId();
-		TbSeckillGoods goods = new TbSeckillGoods();
-		goods.setId(seckillId);
-		TbSeckillGoods seckillGoods = seckillGoodsMapper.selectOne(goods);
-		seckillList.setSeckillGoods(seckillGoods);
-		seckillList.setSeckillOrder(seckillOrder);
-		return seckillList;
-	}
-
+	
 }

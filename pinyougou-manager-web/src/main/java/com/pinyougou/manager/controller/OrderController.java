@@ -1,7 +1,6 @@
 package com.pinyougou.manager.controller;
 import java.util.List;
 
-import com.entity.OrderOne;
 import com.pinyougou.sellergoods.service.OrderService;
 import org.springframework.web.bind.annotation.*;
 import com.alibaba.dubbo.config.annotation.Reference;
@@ -79,14 +78,7 @@ public class OrderController {
 	public TbOrder findOne(@PathVariable(value = "id") Long id){
 		return orderService.findOne(id);		
 	}
-
-
-	@RequestMapping("/findByOrderId/{id}")
-	public OrderOne	findByOrderId(@PathVariable Long id) {
-		return orderService.findByOrderId(id);
-	}
-
-
+	
 	/**
 	 * 批量删除
 	 * @param ids

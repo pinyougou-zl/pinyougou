@@ -1,6 +1,5 @@
 package com.pinyougou.sellergoods.service.impl;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -79,12 +78,7 @@ public class TypeTemplateServiceImpl extends CoreServiceImpl<TbTypeTemplate>  im
 	@Override
     public PageInfo<TbTypeTemplate> findPage(Integer pageNo, Integer pageSize) {
         PageHelper.startPage(pageNo,pageSize);
-        //查询为审核的模板
-		Example example = new Example(TbTypeTemplate.class);
-		Example.Criteria criteria = example.createCriteria();
-		criteria.andEqualTo("status","0");
-		List<TbTypeTemplate> all = typeTemplateMapper.selectByExample(example);
-		//List<TbTypeTemplate> all = typeTemplateMapper.selectAll();
+        List<TbTypeTemplate> all = typeTemplateMapper.selectAll();
         PageInfo<TbTypeTemplate> info = new PageInfo<TbTypeTemplate>(all);
 
         //序列化再反序列化
@@ -93,14 +87,9 @@ public class TypeTemplateServiceImpl extends CoreServiceImpl<TbTypeTemplate>  im
         return pageInfo;
     }
 
+	
+	
 
-	/**
-	 * 修改运营商后台模板管理页面查询findPage方法：增加查询条件：查询已审核的模板
-	 * @param pageNo 当前页 码
-	 * @param pageSize 每页记录数
-	 * @param typeTemplate
-	 * @return
-	 */
 	 @Override
     public PageInfo<TbTypeTemplate> findPage(Integer pageNo, Integer pageSize, TbTypeTemplate typeTemplate) {
         PageHelper.startPage(pageNo,pageSize);
@@ -127,7 +116,6 @@ public class TypeTemplateServiceImpl extends CoreServiceImpl<TbTypeTemplate>  im
 			}
 	
 		}
-		criteria.andEqualTo("status","1");
         List<TbTypeTemplate> all = typeTemplateMapper.selectByExample(example);
         PageInfo<TbTypeTemplate> info = new PageInfo<TbTypeTemplate>(all);
         //序列化再反序列化
@@ -149,57 +137,5 @@ public class TypeTemplateServiceImpl extends CoreServiceImpl<TbTypeTemplate>  im
 
 		 return pageInfo;
     }
-
-	@Override
-	public void updateStatus(Long[] ids, String status) {
-		TbTypeTemplate typeTemplate = new TbTypeTemplate();
-		typeTemplate.setStatus(status);
-		Example example = new Example(TbTypeTemplate.class);
-		Example.Criteria criteria = example.createCriteria();
-		criteria.andIn("id", Arrays.asList(ids));
-		typeTemplateMapper.updateByExampleSelective(typeTemplate,example);
-	}
-
-	/**
-	 * 防冲突
-	 */
-	@Override
-	public PageInfo<TbTypeTemplate> oneFindPage(Integer pageNo, Integer pageSize, TbTypeTemplate typeTemplate) {
-		PageHelper.startPage(pageNo,pageSize);
-
-		Example example = new Example(TbTypeTemplate.class);
-		Example.Criteria criteria = example.createCriteria();
-
-		if(typeTemplate!=null){
-			if(StringUtils.isNotBlank(typeTemplate.getName())){
-				criteria.andLike("name","%"+typeTemplate.getName()+"%");
-				//criteria.andNameLike("%"+typeTemplate.getName()+"%");
-			}
-			if(StringUtils.isNotBlank(typeTemplate.getSpecIds())){
-				criteria.andLike("specIds","%"+typeTemplate.getSpecIds()+"%");
-				//criteria.andSpecIdsLike("%"+typeTemplate.getSpecIds()+"%");
-			}
-			if(StringUtils.isNotBlank(typeTemplate.getBrandIds())){
-				criteria.andLike("brandIds","%"+typeTemplate.getBrandIds()+"%");
-				//criteria.andBrandIdsLike("%"+typeTemplate.getBrandIds()+"%");
-			}
-			if(StringUtils.isNotBlank(typeTemplate.getCustomAttributeItems())){
-				criteria.andLike("customAttributeItems","%"+typeTemplate.getCustomAttributeItems()+"%");
-				//criteria.andCustomAttributeItemsLike("%"+typeTemplate.getCustomAttributeItems()+"%");
-			}
-			if(StringUtils.isNotBlank(typeTemplate.getSellerId())){
-				criteria.andEqualTo("sellerId",typeTemplate.getSellerId());
-
-			}
-
-		}
-		List<TbTypeTemplate> all = typeTemplateMapper.selectByExample(example);
-		PageInfo<TbTypeTemplate> info = new PageInfo<TbTypeTemplate>(all);
-		//序列化再反序列化
-		String s = JSON.toJSONString(info);
-		PageInfo<TbTypeTemplate> pageInfo = JSON.parseObject(s, PageInfo.class);
-
-		return pageInfo;
-	}
-
+	
 }

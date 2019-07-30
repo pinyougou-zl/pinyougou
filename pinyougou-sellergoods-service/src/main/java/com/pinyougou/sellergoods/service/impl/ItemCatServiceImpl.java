@@ -1,11 +1,6 @@
 package com.pinyougou.sellergoods.service.impl;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-
-import com.entity.ItemQuery;
-import com.pinyougou.common.util.SysConstants;
 import org.springframework.beans.factory.annotation.Autowired;
 import com.alibaba.dubbo.config.annotation.Service;
 import com.alibaba.fastjson.JSON;
@@ -69,10 +64,7 @@ public class ItemCatServiceImpl extends CoreServiceImpl<TbItemCat>  implements I
     @Override
     public PageInfo<TbItemCat> findPage(Integer pageNo, Integer pageSize) {
         PageHelper.startPage(pageNo,pageSize);
-        Example example = new Example(TbItemCat.class);
-        Example.Criteria criteria = example.createCriteria();
-        criteria.andEqualTo("status","0");
-        List<TbItemCat> all = itemCatMapper.selectByExample(example);
+        List<TbItemCat> all = itemCatMapper.selectAll();
         PageInfo<TbItemCat> info = new PageInfo<TbItemCat>(all);
 
         //序列化再反序列化
@@ -98,9 +90,7 @@ public class ItemCatServiceImpl extends CoreServiceImpl<TbItemCat>  implements I
 			}
 	
 		}
-		criteria.andEqualTo("status","1");
         List<TbItemCat> all = itemCatMapper.selectByExample(example);
-
         PageInfo<TbItemCat> info = new PageInfo<TbItemCat>(all);
         //序列化再反序列化
         String s = JSON.toJSONString(info);
@@ -108,128 +98,5 @@ public class ItemCatServiceImpl extends CoreServiceImpl<TbItemCat>  implements I
 
         return pageInfo;
     }
-
-    @Override
-    public void updateStatus(Long[] ids, String status) {
-        TbItemCat itemCat = new TbItemCat();
-        itemCat.setStatus(status);
-        Example example = new Example(TbItemCat.class);
-        Example.Criteria criteria = example.createCriteria();
-        criteria.andIn("id", Arrays.asList(ids));
-        itemCatMapper.updateByExampleSelective(itemCat,example);
-        //itemCatMapper.updateByExample(itemCat,example);
-    }
-
-
-
-    /**
-     * 前台页面分类展示
-     * @param parentId
-     */
-    @Override
-    public List<ItemQuery> findGoodItem(Long parentId) {
-        //通过顶级id在redis中查询是否存在数据
-        List<ItemQuery> itemCats = (List<ItemQuery>) redisTemplate.boundValueOps(SysConstants.YM).get();
-        //如果没有就到数据库中查询并且存入redis
-        if (itemCats==null) {
-            //通过parentId到数据库中查询
-
-            List<TbItemCat> itemCats1 = itemCatMapper.selectByParentId(parentId);
-           itemCats = new ArrayList<>();
-            //顶级商品分类
-            for (TbItemCat tbItemCat : itemCats1) {
-                ItemQuery itemCat01 = new ItemQuery();
-                itemCat01.setId(tbItemCat.getId());
-                itemCat01.setName(tbItemCat.getName());
-                itemCat01.setParentId(tbItemCat.getParentId());
-                //创建一个放二级分类的集合
-                List<ItemQuery> itemCatList02 = new ArrayList<>();
-                //通过顶级商品分类的id查询二级商品分类 并且是要已经审核的
-                Example example2 = new Example(TbItemCat.class);
-                example2.createCriteria().andEqualTo("parentId",tbItemCat.getId()).andEqualTo("status","1");
-                List<TbItemCat> itemCats2 = itemCatMapper.selectByExample(example2);
-                //通过二级分类的id查询三级商品分类 并且是要已经审核的
-                for (TbItemCat cat : itemCats2) {
-
-                    ItemQuery itemCat02 = new ItemQuery();
-                    itemCat02.setId(cat.getId());
-                    itemCat02.setName(cat.getName());
-                    itemCat02.setParentId(cat.getParentId());
-
-                    Example example3 = new Example(TbItemCat.class);
-                    example3.createCriteria().andEqualTo("parentId",cat.getId()).andEqualTo("status","1");
-                    List<TbItemCat> itemCats3 = itemCatMapper.selectByExample(example3);
-                    List<ItemQuery> itemCat3 = new ArrayList<>();
-                    for (TbItemCat itemCat : itemCats3) {
-                        ItemQuery itemQuery = new ItemQuery();
-                        itemQuery.setId(itemCat.getId());
-                        itemQuery.setName(itemCat.getName());
-                        itemQuery.setParentId(itemCat.getParentId());
-                        itemCat3.add(itemQuery);
-                    }
-                    //设置三级分类到二级分类的list中
-                    itemCat02.setItemQueries(itemCat3);
-                    itemCatList02.add(itemCat02);
-                }
-                //设置二级分类到顶级分类的List中
-                itemCat01.setItemQueries(itemCatList02);
-                itemCats.add(itemCat01);
-            }
-            //存入redis
-            redisTemplate.boundValueOps(SysConstants.YM).set(itemCats);
-            return itemCats;
-        }else {
-            //如果有就返回从redis中查询到的数据
-            return itemCats;
-        }
-    }
-
-
-
-    /**
-     * 防冲突=================================
-     */
-
-    @Override
-    public PageInfo<TbItemCat> oneFindPage(Integer pageNo, Integer pageSize, TbItemCat itemCat) {
-
-        PageHelper.startPage(pageNo,pageSize);
-
-        Example example = new Example(TbItemCat.class);
-        Example.Criteria criteria = example.createCriteria();
-
-        if(itemCat!=null){
-            if(StringUtils.isNotBlank(itemCat.getName())) {
-                criteria.andLike("name", "%" + itemCat.getName() + "%");
-                //criteria.andNameLike("%"+itemCat.getName()+"%");
-            }
-            if(StringUtils.isNotBlank(itemCat.getSellerId())) {
-                criteria.andEqualTo("sellerId", itemCat.getSellerId());
-            }
-
-
-        }
-        List<TbItemCat> all = itemCatMapper.selectByExample(example);
-        PageInfo<TbItemCat> info = new PageInfo<TbItemCat>(all);
-        //序列化再反序列化
-        String s = JSON.toJSONString(info);
-        PageInfo<TbItemCat> pageInfo = JSON.parseObject(s, PageInfo.class);
-  /*       System.out.println(pageInfo.getList());
-         System.out.println(pageInfo.getList().size());
-         System.out.println(itemCat.getSellerId());*/
-        return pageInfo;
-    }
-
-    @Override
-    public List<TbItemCat> oneFindByParentId(Long parentId) {
-        TbItemCat cat = new TbItemCat();
-        cat.setParentId(parentId);
-        cat.setStatus("1");
-        //根据条件查询
-        List<TbItemCat> itemCats = itemCatMapper.select(cat);
-        return itemCats;
-
-    }
-
-
+	
 }

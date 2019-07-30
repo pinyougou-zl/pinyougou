@@ -63,7 +63,7 @@
 										  <th class="sorting_asc">分类ID</th>
 									      <th class="sorting">分类名称</th>									   
 									      <th class="sorting">类型模板ID</th>
-									      <th class="sorting">商家Id</th>
+									     						
 					                      <th class="text-center">操作</th>
 			                          </tr>
 			                      </thead>
@@ -74,8 +74,7 @@
 									      <td>{{entity.name}}</td>
 									      <td>
 									      	{{entity.typeId}}
-									      </td>
-										  <td>{{entity.sellerId}}</td>
+									      </td>									      
 		                                  <td class="text-center">
 											  <span v-if="grade != 3">
 												<button type="button" class="btn bg-olive btn-xs" @click="grade=grade+1;selectList(entity)">查询下级</button>

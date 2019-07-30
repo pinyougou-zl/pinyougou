@@ -84,7 +84,6 @@ public class SeckillGoodsServiceImpl extends CoreServiceImpl<TbSeckillGoods>  im
 			}
 	
 		}
-		criteria.andEqualTo("status","0");
         List<TbSeckillGoods> all = seckillGoodsMapper.selectByExample(example);
         PageInfo<TbSeckillGoods> info = new PageInfo<TbSeckillGoods>(all);
         //序列化再反序列化

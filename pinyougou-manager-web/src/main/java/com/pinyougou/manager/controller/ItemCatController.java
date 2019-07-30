@@ -29,34 +29,15 @@ public class ItemCatController {
 	public List<TbItemCat> findAll(){			
 		return itemCatService.findAll();
 	}
-
-	@RequestMapping("/updateStatus/{status}")
-	public Result updateStatus(@RequestBody Long[] ids,@PathVariable String status) {
-		try {
-			itemCatService.updateStatus(ids,status);
-			return  new Result(true,"修改成功");
-		} catch (Exception e) {
-			e.printStackTrace();
-			return  new Result(false,"修改失败");
-		}
-	}
+	
+	
 	
 	@RequestMapping("/findPage")
     public PageInfo<TbItemCat> findPage(@RequestParam(value = "pageNo", defaultValue = "1", required = true) Integer pageNo,
                                       @RequestParam(value = "pageSize", defaultValue = "10", required = true) Integer pageSize) {
         return itemCatService.findPage(pageNo, pageSize);
     }
-
-    @RequestMapping("/findParentName/{parentId}")
-    public Result findParentName(@PathVariable Long parentId) {
-		try {
-			TbItemCat itemCat = itemCatService.findOne(parentId);
-			return new Result(true,itemCat.getName());
-		} catch (Exception e) {
-			e.printStackTrace();
-			return new Result(false,"异常");
-		}
-	}
+	
 	/**
 	 * 增加
 	 * @param itemCat
@@ -122,12 +103,7 @@ public class ItemCatController {
         return itemCatService.findPage(pageNo, pageSize, itemCat);
     }
 
-	/**
-	 * 查询父类名称
-	 * @param parentId
-	 * @return
-	 */
-	@RequestMapping("/findByParentId/{parentId}")
+    @RequestMapping("/findByParentId/{parentId}")
 	public List<TbItemCat> findByParentId(@PathVariable(value = "parentId") Long parentId) {
 		return itemCatService.findByParentId(parentId);
 	}

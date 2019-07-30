@@ -1,8 +1,5 @@
 package com.pinyougou.pojo;
 
-import com.entity.LongToStringSerializer;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
@@ -16,13 +13,11 @@ public class TbSeckillOrder implements Serializable {
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @JsonSerialize(using = LongToStringSerializer.class)
     private Long id;
 
     /**
      * 秒杀商品ID
      */
-
     @Column(name = "seckill_id")
     private Long seckillId;
 

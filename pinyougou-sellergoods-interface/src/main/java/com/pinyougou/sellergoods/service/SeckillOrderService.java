@@ -1,7 +1,5 @@
 package com.pinyougou.sellergoods.service;
 import java.util.List;
-
-import com.entity.SeckillList;
 import com.pinyougou.pojo.TbSeckillOrder;
 
 import com.github.pagehelper.PageInfo;
@@ -30,6 +28,5 @@ public interface SeckillOrderService extends CoreService<TbSeckillOrder> {
 	 * @return
 	 */
 	PageInfo<TbSeckillOrder> findPage(Integer pageNo, Integer pageSize, TbSeckillOrder SeckillOrder);
-
-	SeckillList findOneList(Long id);
+	
 }

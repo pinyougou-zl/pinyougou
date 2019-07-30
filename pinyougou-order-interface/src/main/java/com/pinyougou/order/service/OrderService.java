@@ -44,4 +44,7 @@ public interface OrderService extends CoreService<TbOrder> {
 	 */
 	public void updateorderStatus(String out_trade_no,String transaction_id);
 
+
+	void updateGoodsSellerNumber(TbOrder tbOrder);
+
 }
