@@ -39,7 +39,7 @@
                             </div>
                             <div class="box-tools pull-right">
 								{{searchEntity}}
-                                <div class="has-feedback">
+                                <div class="has-feedback" v-if="me==0">
 							              品牌名称：<input type="text" v-model="searchEntity.name">
 									      首字母：<input type="text" v-model="searchEntity.firstChar">
 									<button @click="searchList(1)">搜索</button>

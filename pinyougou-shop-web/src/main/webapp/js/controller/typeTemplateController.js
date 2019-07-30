@@ -14,7 +14,7 @@
     },
     methods: {
         searchList:function (curPage) {
-            axios.post('/typeTemplate/search.shtml?pageNo='+curPage,this.searchEntity).then(function (response) {
+            axios.post('/typeTemplate/searchOne.shtml?pageNo='+curPage,this.searchEntity).then(function (response) {
                 //获取数据
                 app.list=response.data.list;
 
@@ -53,7 +53,7 @@
         },
         //该方法只要不在生命周期的
         add:function () {
-            axios.post('/typeTemplate/add.shtml',this.entity).then(function (response) {
+            axios.post('/typeTemplate/addOne.shtml',this.entity).then(function (response) {
                 console.log(response);
                 if(response.data.success){
                     app.searchListApply(1);
@@ -63,7 +63,7 @@
             });
         },
         update:function () {
-            axios.post('/typeTemplate/update.shtml',this.entity).then(function (response) {
+            axios.post('/typeTemplate/updateOne.shtml',this.entity).then(function (response) {
                 console.log(response);
                 if(response.data.success){
                     app.searchListApply(1);

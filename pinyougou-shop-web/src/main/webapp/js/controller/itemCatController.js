@@ -18,7 +18,7 @@
     },
     methods: {
         searchList:function (curPage) {
-            axios.post('/itemCat/search.shtml?pageNo='+curPage,this.searchEntity).then(function (response) {
+            axios.post('/itemCat/searchOne.shtml?pageNo='+curPage,this.searchEntity).then(function (response) {
                 //获取数据
                 app.list=response.data.list;
 
@@ -57,7 +57,7 @@
         },
         //该方法只要不在生命周期的
         add:function () {
-            axios.post('/itemCat/add.shtml',this.entity).then(function (response) {
+            axios.post('/itemCat/addOne.shtml',this.entity).then(function (response) {
                 console.log(response);
                 alert(response.data.message);
                 if(response.data.success){
@@ -72,7 +72,7 @@
             });
         },
         update:function () {
-            axios.post('/itemCat/update.shtml',this.entity).then(function (response) {
+            axios.post('/itemCat/updateOne.shtml',this.entity).then(function (response) {
                 console.log(response);
                 if(response.data.success){
                   //  app.searchList(1);
@@ -117,7 +117,7 @@
         },
         findByParentId:function (parentId) {
 
-            axios.get('/itemCat/findByParentId/'+parentId+'.shtml').then(function (response) {
+            axios.get('/itemCat/findByParentIdOne/'+parentId+'.shtml').then(function (response) {
                 app.list=response.data;
                 //记录下来
                 app.entity.parentId=parentId;

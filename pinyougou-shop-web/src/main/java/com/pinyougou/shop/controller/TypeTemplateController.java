@@ -1,14 +1,20 @@
 package com.pinyougou.shop.controller;
 
 import com.alibaba.dubbo.config.annotation.Reference;
-import com.entity.Result;
+
 import com.github.pagehelper.PageInfo;
 import com.pinyougou.pojo.TbTypeTemplate;
 import com.pinyougou.sellergoods.service.TypeTemplateService;
+import entity.Result;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Map;
+
+/**
+ * search   update   add
+ */
 
 /**
  * controller
@@ -111,5 +117,90 @@ public class TypeTemplateController {
     @RequestMapping("/findSpecList/{id}")
 	public List<Map> findSpecList(@PathVariable(value = "id") Long id) {
 		return typeTemplateService.findSpecList(id);
+	}
+
+	/**
+	 * 返回全部列表
+	 * @return
+	 */
+
+
+
+//=========================================
+
+
+
+	/**
+	 * 增加
+	 * @param typeTemplate
+	 * @return
+	 */
+	@RequestMapping("/addOne")
+	public Result addOne(@RequestBody TbTypeTemplate typeTemplate){
+		try {
+			typeTemplate.setStatus("0");
+			typeTemplate.setSellerid(SecurityContextHolder.getContext().getAuthentication().getName());
+			typeTemplateService.add(typeTemplate);
+			return new Result(true, "增加成功");
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new Result(false, "增加失败");
+		}
+	}
+
+	/**
+	 * 修改
+	 * @param typeTemplate
+	 * @return
+	 */
+	@RequestMapping("/updateOne")
+	public Result updateOne(@RequestBody TbTypeTemplate typeTemplate){
+		try {
+			typeTemplate.setStatus("0");
+			typeTemplateService.update(typeTemplate);
+			return new Result(true, "修改成功");
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new Result(false, "修改失败");
+		}
+	}
+
+
+
+
+
+
+
+
+
+	/**
+	 *
+	 * @param pageNo
+	 * @param pageSize
+	 * @param typeTemplate
+	 * @return
+	 */
+	@RequestMapping("/searchOne")
+	public PageInfo<TbTypeTemplate> findPageOne(@RequestParam(value = "pageNo", defaultValue = "1", required = true) Integer pageNo,
+											 @RequestParam(value = "pageSize", defaultValue = "10", required = true) Integer pageSize,
+											 @RequestBody TbTypeTemplate typeTemplate) {
+		return typeTemplateService.oneFindPage(pageNo, pageSize, typeTemplate);
+	}
+
+
+
+	@RequestMapping("/searchApply")
+	public PageInfo<TbTypeTemplate> findPageApply(@RequestParam(value = "pageNo", defaultValue = "1", required = true) Integer pageNo,
+												  @RequestParam(value = "pageSize", defaultValue = "10", required = true) Integer pageSize,
+												  @RequestBody TbTypeTemplate typeTemplate) {
+		typeTemplate.setSellerid(SecurityContextHolder.getContext().getAuthentication().getName());
+		return typeTemplateService.oneFindPage(pageNo, pageSize, typeTemplate);
+	}
+
+	@RequestMapping("/searchListAll")
+	public PageInfo<TbTypeTemplate> searchListAll(@RequestParam(value = "pageNo", defaultValue = "1", required = true) Integer pageNo,
+												  @RequestParam(value = "pageSize", defaultValue = "10", required = true) Integer pageSize,
+												  @RequestBody TbTypeTemplate typeTemplate) {
+		return typeTemplateService.oneFindPage(pageNo, pageSize, typeTemplate);
 	}
 }
