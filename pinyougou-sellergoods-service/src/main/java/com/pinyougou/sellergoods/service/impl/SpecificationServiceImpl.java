@@ -179,10 +179,6 @@ public class SpecificationServiceImpl extends CoreServiceImpl<TbSpecification>  
                 criteria.andLike("specName","%"+specification.getSpecName()+"%");
                 //criteria.andSpecNameLike("%"+specification.getSpecName()+"%");
             }
-            if(StringUtils.isNotBlank(specification.getSellerId())){
-                criteria.andEqualTo("sellerId",specification.getSellerId());
-                //criteria.andSpecNameLike("%"+specification.getSpecName()+"%");
-            }
 
 
         }
