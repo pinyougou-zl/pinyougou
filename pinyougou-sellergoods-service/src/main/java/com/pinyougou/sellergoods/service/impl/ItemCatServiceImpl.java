@@ -184,4 +184,52 @@ public class ItemCatServiceImpl extends CoreServiceImpl<TbItemCat>  implements I
         }
     }
 
+
+
+    /**
+     * 防冲突=================================
+     */
+
+    @Override
+    public PageInfo<TbItemCat> oneFindPage(Integer pageNo, Integer pageSize, TbItemCat itemCat) {
+
+        PageHelper.startPage(pageNo,pageSize);
+
+        Example example = new Example(TbItemCat.class);
+        Example.Criteria criteria = example.createCriteria();
+
+        if(itemCat!=null){
+            if(StringUtils.isNotBlank(itemCat.getName())) {
+                criteria.andLike("name", "%" + itemCat.getName() + "%");
+                //criteria.andNameLike("%"+itemCat.getName()+"%");
+            }
+            if(StringUtils.isNotBlank(itemCat.getSellerId())) {
+                criteria.andEqualTo("sellerId", itemCat.getSellerId());
+            }
+
+
+        }
+        List<TbItemCat> all = itemCatMapper.selectByExample(example);
+        PageInfo<TbItemCat> info = new PageInfo<TbItemCat>(all);
+        //序列化再反序列化
+        String s = JSON.toJSONString(info);
+        PageInfo<TbItemCat> pageInfo = JSON.parseObject(s, PageInfo.class);
+  /*       System.out.println(pageInfo.getList());
+         System.out.println(pageInfo.getList().size());
+         System.out.println(itemCat.getSellerId());*/
+        return pageInfo;
+    }
+
+    @Override
+    public List<TbItemCat> oneFindByParentId(Long parentId) {
+        TbItemCat cat = new TbItemCat();
+        cat.setParentId(parentId);
+        cat.setStatus("1");
+        //根据条件查询
+        List<TbItemCat> itemCats = itemCatMapper.select(cat);
+        return itemCats;
+
+    }
+
+
 }

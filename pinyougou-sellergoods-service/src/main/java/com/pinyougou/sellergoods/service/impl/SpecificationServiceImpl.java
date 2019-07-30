@@ -161,5 +161,70 @@ public class SpecificationServiceImpl extends CoreServiceImpl<TbSpecification>  
 
         return pageInfo;
     }
+
+
+    /**
+     * 防冲突=====================================================
+     * 查
+     */
+    @Override
+    public PageInfo<TbSpecification> oneFindPage(Integer pageNo, Integer pageSize, TbSpecification specification) {
+        PageHelper.startPage(pageNo,pageSize);
+
+        Example example = new Example(TbSpecification.class);
+        Example.Criteria criteria = example.createCriteria();
+
+        if(specification!=null){
+            if(StringUtils.isNotBlank(specification.getSpecName())){
+                criteria.andLike("specName","%"+specification.getSpecName()+"%");
+                //criteria.andSpecNameLike("%"+specification.getSpecName()+"%");
+            }
+            if(StringUtils.isNotBlank(specification.getSellerId())){
+                criteria.andEqualTo("sellerId",specification.getSellerId());
+                //criteria.andSpecNameLike("%"+specification.getSpecName()+"%");
+            }
+
+
+        }
+        List<TbSpecification> all = specificationMapper.selectByExample(example);
+        PageInfo<TbSpecification> info = new PageInfo<TbSpecification>(all);
+        //序列化再反序列化
+        String s = JSON.toJSONString(info);
+        PageInfo<TbSpecification> pageInfo = JSON.parseObject(s, PageInfo.class);
+
+        return pageInfo;
+    }
+    //保存修改数据2
+    @Override
+    public void updateApply(Specification specification) {
+        specificationMapper.updateByPrimaryKey(specification.getSpecification());
+        TbSpecificationOption option1 = new TbSpecificationOption();
+        option1.setSpecId(specification.getSpecification().getId());
+        optionMapper.delete(option1);
+        List<TbSpecificationOption> optionList = specification.getOptionList();
+        for (TbSpecificationOption option : optionList) {
+            option.setSpecId(option1.getSpecId());
+            System.out.println(option);
+            optionMapper.insert(option);
+
+        }
+    }
+
+    //获取数据回显
+    @Override
+    public Specification oneFindOne(Long id) {
+        Specification specification = new Specification();
+        TbSpecification tbSpecification = specificationMapper.selectByPrimaryKey(id);
+
+        TbSpecificationOption option = new TbSpecificationOption();
+        option.setSpecId(id);
+        List<TbSpecificationOption> options = optionMapper.select(option);
+        specification.setOptionList(options);
+        specification.setSpecification(tbSpecification);
+        return specification;
+
+    }
+
+
 	
 }

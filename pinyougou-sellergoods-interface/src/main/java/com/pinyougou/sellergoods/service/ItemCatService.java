@@ -39,4 +39,9 @@ public interface ItemCatService extends CoreService<TbItemCat> {
 	void updateStatus(Long[] ids, String status);
 
     List<ItemQuery> findGoodItem(Long parentId);
+
+
+	PageInfo<TbItemCat> oneFindPage(Integer pageNo, Integer pageSize, TbItemCat itemCat);
+
+	List<TbItemCat> oneFindByParentId(Long parentId);
 }

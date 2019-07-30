@@ -21,7 +21,30 @@ public class TbBrand implements Serializable {
      */
     @Column(name = "first_char")
     private String firstChar;
+    /**
+     * 商家ID
+     */
+    @Column(name = "seller_id")
+    private String sellerId;
 
+    public String getSellerId() {
+        return sellerId;
+    }
+    public void setSellerId(String sellerId) {
+        this.sellerId= sellerId;
+    }
+
+    /**
+     * 审核状态
+     */
+    @Column(name = "status")
+    private String status;
+    public String getStatus() {
+        return status;
+    }
+    public void setStatus(String status) {
+        this.status= status;
+    }
     private static final long serialVersionUID = 1L;
 
     /**

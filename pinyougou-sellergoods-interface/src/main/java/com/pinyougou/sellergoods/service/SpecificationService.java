@@ -33,5 +33,12 @@ public interface SpecificationService extends CoreService<TbSpecification> {
 	 * @return
 	 */
 	PageInfo<TbSpecification> findPage(Integer pageNo, Integer pageSize, TbSpecification Specification);
-	
+
+
+	void updateApply(Specification specification);
+
+	PageInfo<TbSpecification> oneFindPage(Integer pageNo, Integer pageSize, TbSpecification specification);
+
+	//获取数据回显
+	Specification oneFindOne(Long id);
 }

@@ -114,4 +114,47 @@ public class BrandServiceImpl extends CoreServiceImpl<TbBrand> implements BrandS
         PageInfo pageInfo = JSON.parseObject(s, PageInfo.class);
         return pageInfo;
     }
+
+
+
+    /**
+     * 本次项目防冲突
+     * 查询:分页+条件
+     * @param pageNo
+     * @param pageSize
+     * @param brand
+     * @return
+     */
+
+    @Override
+    public PageInfo<TbBrand> oneFindPage(Integer pageNo, Integer pageSize, TbBrand brand) {
+        PageHelper.startPage(pageNo, pageSize);
+
+        Example example = new Example(TbBrand.class);
+        Example.Criteria criteria = example.createCriteria();
+        if (brand != null) {
+            if (StringUtils.isNotBlank(brand.getName())) {
+                criteria.andLike("name", "%" + brand.getName() + "%");
+                //criteria.andNameLike("%"+brand.getName()+"%");
+            }
+            if (StringUtils.isNotBlank(brand.getFirstChar())) {
+                criteria.andLike("firstChar", "%" + brand.getFirstChar() + "%");
+                //criteria.andFirstCharLike("%"+brand.getFirstChar()+"%");
+            }
+            //匹配相同的sellerId
+            if (StringUtils.isNotBlank(brand.getSellerId())) {
+                criteria.andEqualTo("sellerId", brand.getSellerId());
+                //criteria.andFirstCharLike("%"+brand.getFirstChar()+"%");
+            }
+
+        }
+        List<TbBrand> all = brandMapper.selectByExample(example);
+        PageInfo<TbBrand> info = new PageInfo<TbBrand>(all);
+        //序列化再反序列化
+        String s = JSON.toJSONString(info);
+        PageInfo<TbBrand> pageInfo = JSON.parseObject(s, PageInfo.class);
+
+        return pageInfo;
+
+    }
 }
