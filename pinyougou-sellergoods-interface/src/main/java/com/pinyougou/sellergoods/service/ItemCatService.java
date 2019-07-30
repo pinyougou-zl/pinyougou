@@ -36,4 +36,9 @@ public interface ItemCatService extends CoreService<TbItemCat> {
 	PageInfo<TbItemCat> findPage(Integer pageNo, Integer pageSize, TbItemCat ItemCat);
 
 	void updateStatus(Long[] ids, String status);
+
+
+	PageInfo<TbItemCat> oneFindPage(Integer pageNo, Integer pageSize, TbItemCat itemCat);
+
+	List<TbItemCat> oneFindByParentId(Long parentId);
 }
