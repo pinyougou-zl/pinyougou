@@ -139,7 +139,7 @@ public class TypeTemplateController {
 	public Result addOne(@RequestBody TbTypeTemplate typeTemplate){
 		try {
 			typeTemplate.setStatus("0");
-			typeTemplate.setSellerid(SecurityContextHolder.getContext().getAuthentication().getName());
+			typeTemplate.setSellerId(SecurityContextHolder.getContext().getAuthentication().getName());
 			typeTemplateService.add(typeTemplate);
 			return new Result(true, "增加成功");
 		} catch (Exception e) {
@@ -193,7 +193,7 @@ public class TypeTemplateController {
 	public PageInfo<TbTypeTemplate> findPageApply(@RequestParam(value = "pageNo", defaultValue = "1", required = true) Integer pageNo,
 												  @RequestParam(value = "pageSize", defaultValue = "10", required = true) Integer pageSize,
 												  @RequestBody TbTypeTemplate typeTemplate) {
-		typeTemplate.setSellerid(SecurityContextHolder.getContext().getAuthentication().getName());
+		typeTemplate.setSellerId(SecurityContextHolder.getContext().getAuthentication().getName());
 		return typeTemplateService.oneFindPage(pageNo, pageSize, typeTemplate);
 	}
 

@@ -130,7 +130,7 @@ public class ItemCatController {
 	@RequestMapping("/addOne")
 	public Result addOne(@RequestBody TbItemCat itemCat){
 		try {
-			itemCat.setSellerid(SecurityContextHolder.getContext().getAuthentication().getName());
+			itemCat.setSellerId(SecurityContextHolder.getContext().getAuthentication().getName());
 			itemCat.setStatus("0");
 			itemCatService.add(itemCat);
 			return new Result(true, "增加成功");
@@ -180,7 +180,7 @@ public class ItemCatController {
 	public PageInfo<TbItemCat> findPageApply(@RequestParam(value = "pageNo", defaultValue = "1", required = true) Integer pageNo,
 											 @RequestParam(value = "pageSize", defaultValue = "10", required = true) Integer pageSize,
 											 @RequestBody TbItemCat itemCat) {
-		itemCat.setSellerid(SecurityContextHolder.getContext().getAuthentication().getName());
+		itemCat.setSellerId(SecurityContextHolder.getContext().getAuthentication().getName());
 		return itemCatService.oneFindPage(pageNo, pageSize, itemCat);
 	}
 }
