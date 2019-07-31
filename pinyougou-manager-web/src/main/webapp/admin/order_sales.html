@@ -87,8 +87,8 @@
     </div>
     <form method="post" name="fm" hidden>
         <div>
-            <input type="text " id="startTime" name="startTime">
-            <input type="text" id="endTime" name="endTime">
+            <input type="text " v-model="startTime" id="startTime" name="startTime">
+            <input type="text" v-model="endTime" id="endTime" name="endTime">
         </div>
         <!--<button type="button" @click="searchOrderByCreateTime()">搜索</button>-->
     </form>
@@ -103,16 +103,17 @@
             <th class="sorting_asc">商品ID</th>
             <th class="sorting">商品名称</th>
             <th class="sorting">商品销售金额</th>
+            <!--<th class="sorting">商品单价</th>-->
             <th class="text-center">商品销售数量</th>
         </tr>
         </thead>
         <tbody>
-        {{ids}}
         <tr v-for="entity in list">
             <td><input type="checkbox" :value="entity.id" v-model="ids"></td>
             <td>{{entity.itemId}}</td>
             <td>{{entity.title}}</td>
             <td>{{entity.totalFee}}</td>
+            <!--<td>{{entity.price}}</td>-->
             <td>{{entity.num}}</td>
         </tr>
 
@@ -121,7 +122,7 @@
     <!--数据列表/-->
 
     <!-- 为ECharts准备一个具备大小（宽高）的Dom -->
-    <div id="main" style="width: 1000px;height:600px;"></div>
+    <div id="main" style="width: 1500px;height:600px;"></div>
 </div>
 
 </body>
