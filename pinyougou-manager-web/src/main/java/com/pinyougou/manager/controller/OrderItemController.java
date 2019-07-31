@@ -1,6 +1,7 @@
 package com.pinyougou.manager.controller;
 import java.util.List;
 
+import com.entity.OrderItemSale;
 import org.springframework.web.bind.annotation.*;
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.pinyougou.pojo.TbOrderItem;
@@ -103,5 +104,23 @@ public class OrderItemController {
                                       @RequestBody TbOrderItem orderItem) {
         return orderItemService.findPage(pageNo, pageSize, orderItem);
     }
-	
+
+
+	@RequestMapping("/searchOrderByCreateTime")
+	public List<OrderItemSale> findOrderByCreateTime(@RequestParam(value = "pageNo", defaultValue = "1", required = true) Integer pageNo,
+													 @RequestParam(value = "pages", defaultValue = "10", required = true) Integer pageSize,
+													 @RequestParam(value = "startTime") Long startTime, @RequestParam(value = "endTime") Long endTime) {
+
+		System.out.println(pageNo);
+		System.out.println(pageSize);
+		System.out.println(startTime);
+		System.out.println(endTime);
+		if (startTime == null || endTime == null || startTime >= endTime) {
+			throw new RuntimeException("请输入正确的日期时间范围！");
+		}
+		return orderItemService.searchOrderByCreateTime(pageNo, pageSize, startTime, endTime);
+
+	}
+
+
 }

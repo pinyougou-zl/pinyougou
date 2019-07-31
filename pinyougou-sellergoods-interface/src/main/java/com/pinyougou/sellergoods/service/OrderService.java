@@ -28,5 +28,5 @@ public interface OrderService extends CoreService<TbOrder> {
 	 * @return
 	 */
 	PageInfo<TbOrder> findPage(Integer pageNo, Integer pageSize, TbOrder Order);
-	
+
 }

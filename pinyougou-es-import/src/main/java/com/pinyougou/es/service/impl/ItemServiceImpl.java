@@ -9,6 +9,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -27,7 +28,7 @@ public class ItemServiceImpl implements ItemService {
     private TbItemMapper itemMapper;
 
     @Override
-    public void ImportDataToEs() {
+    public void importDataToEs() {
         //1.从数据库查询出符合条件的tbitem的数据
 
         TbItem record = new TbItem();
@@ -35,13 +36,37 @@ public class ItemServiceImpl implements ItemService {
         List<TbItem> itemList = itemMapper.select(record);
         for (TbItem tbItem : itemList) {
             String spec = tbItem.getSpec();
-            if(StringUtils.isNotBlank(spec)){
-                Map<String,String> map = JSON.parseObject(spec, Map.class);
+            if (StringUtils.isNotBlank(spec)) {
+                Map<String, String> map = JSON.parseObject(spec, Map.class);
                 tbItem.setSpecMap(map);
             }
         }
         //2.保存即可
         dao.saveAll(itemList);
+    }
+
+    public void importDataToEs(Long[] ids) {
+        List<TbItem> itemList = new ArrayList<>();
+        for (Long id : ids) {
+            //1.从数据库查询出符合条件的tbitem的数据
+            TbItem tbItem = itemMapper.selectByPrimaryKey(id);
+            String spec = tbItem.getSpec();
+            if (StringUtils.isNotBlank(spec)) {
+                Map<String, String> map = JSON.parseObject(spec, Map.class);
+                tbItem.setSpecMap(map);
+            }
+            itemList.add(tbItem);
+        }
+        //2.保存即可
+        dao.saveAll(itemList);
+    }
+
+    public void deleteDataFromEsByID(Long[] ids) {
+        if (ids != null && ids.length >= 1) {
+            for (Long id : ids) {
+                dao.deleteById(id);
+            }
+        }
     }
 
 }

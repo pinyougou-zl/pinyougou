@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>品牌管理</title>
+    <meta content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" name="viewport">
+    <link rel="stylesheet" href="../plugins/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../plugins/adminLTE/css/AdminLTE.css">
+    <link rel="stylesheet" href="../plugins/adminLTE/css/skins/_all-skins.min.css">
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/reset.css"/>
+    <link rel="stylesheet" href="../css/dateTimeStyle.css">
+    <script src="../plugins/jQuery/jquery-2.2.3.min.js"></script>
+    <script src="../plugins/bootstrap/js/bootstrap.min.js"></script>
+    <script src="../js/echarts.min.js"></script>
+    <script src="../jquery/jquery-1.10.2.js"></script>
+    <script src="../js/jquery-2.1.4.min.js"></script>
+    <script src="../js/ecalendar.jquery.min.js"></script>
+    <style media="screen">
+        body {
+            padding: 20px;
+            font-size: 14px;
+        }
+
+        h1 {
+            font-size: 26px;
+        }
+
+        p {
+            font-size: 14px;
+            margin-top: 10px;
+        }
+
+        pre {
+            background: #eee;
+            border: 1px solid #ddd;
+            border-left: 4px solid #f60;
+            padding: 15px;
+            margin-top: 15px;
+        }
+
+        h2 {
+            font-size: 20px;
+            margin-top: 20px;
+        }
+
+        .case {
+            margin-top: 15px
+        }
+
+        .ECalendar {
+            width: 250px;
+            height: 35px;
+        }
+    </style>
+
+</head>
+<body class="hold-transition skin-red sidebar-mini">
+<!-- .box-body -->
+<div id="app">
+    <div>
+        <h1>商品销售详情</h1>
+    </div>
+    <div>
+        <h2>查询某时段商品销量</h2>
+    </div>
+    <div>
+        <div style="float: left;margin-right: 10px">
+            <div class="charts has-feedback" style="float: left">
+                <div class="case">
+                    <div class="calendarWarp" style="float: left;margin-right: 10px">
+                        开始时间：<input type="text" class='ECalendar' id="ECalendar_case2"/>
+                    </div>
+                    <div class="calendarWarp" style="float: left;margin-right: 10px">
+                        截止时间：<input type="text" name="date" class='ECalendar' id="ECalendar_case3"/>
+                    </div>
+                </div>
+            </div>
+            <div style="width: 100px;height:35px;float: left;margin-left: 20px;margin-top: 15px">
+                <button type="button" class="btn btn-default" style="width: 100px"
+                        @click="searchOrderByCreateTime()">
+                    搜&nbsp;&nbsp;&nbsp;索
+                </button>
+            </div>
+        </div>
+    </div>
+    <form method="post" name="fm" hidden>
+        <div>
+            <input type="text " id="startTime" name="startTime">
+            <input type="text" id="endTime" name="endTime">
+        </div>
+        <!--<button type="button" @click="searchOrderByCreateTime()">搜索</button>-->
+    </form>
+
+    <!--数据列表-->
+    <table id="dataList" class="table table-bordered table-striped table-hover dataTable">
+        <thead>
+        <tr>
+            <th class="" style="padding-right:0px">
+                <input id="selall" type="checkbox" class="icheckbox_square-blue">
+            </th>
+            <th class="sorting_asc">商品ID</th>
+            <th class="sorting">商品名称</th>
+            <th class="sorting">商品销售金额</th>
+            <th class="text-center">商品销售数量</th>
+        </tr>
+        </thead>
+        <tbody>
+        {{ids}}
+        <tr v-for="entity in list">
+            <td><input type="checkbox" :value="entity.id" v-model="ids"></td>
+            <td>{{entity.itemId}}</td>
+            <td>{{entity.title}}</td>
+            <td>{{entity.totalFee}}</td>
+            <td>{{entity.num}}</td>
+        </tr>
+
+        </tbody>
+    </table>
+    <!--数据列表/-->
+
+    <!-- 为ECharts准备一个具备大小（宽高）的Dom -->
+    <div id="main" style="width: 1000px;height:600px;"></div>
+</div>
+
+</body>
+<script src="../plugins/vue/vue.js"></script>
+<script src="../plugins/axios/axios.js"></script>
+<script src="../js/pagination.js"></script>
+<script src="../js/controller/orderItermController.js"></script>
+<script type="text/javascript">
+    $(function () {
+        $("#ECalendar_case2").ECalendar({
+            type: "time",
+            stamp: true,
+            skin: 6,
+            // format: "yyyy年mm月dd日 hh时ii分",
+            callback: function (v, e) {
+                $("#startTime").val(v)
+            }
+        });
+        $("#ECalendar_case3").ECalendar({
+            type: "time",
+            stamp: true,
+            skin: 6,
+
+            // format: "yyyy年mm月dd日 hh时ii分",
+            callback: function (v, e) {
+                $("#endTime").val(v)
+            }
+        });
+    })
+</script>
+
+</html>

@@ -1,5 +1,7 @@
 package com.pinyougou.sellergoods.service;
 import java.util.List;
+
+import com.entity.OrderItemSale;
 import com.pinyougou.pojo.TbOrderItem;
 
 import com.github.pagehelper.PageInfo;
@@ -28,5 +30,6 @@ public interface OrderItemService extends CoreService<TbOrderItem> {
 	 * @return
 	 */
 	PageInfo<TbOrderItem> findPage(Integer pageNo, Integer pageSize, TbOrderItem OrderItem);
-	
+
+    List<OrderItemSale> searchOrderByCreateTime(Integer pageNo, Integer pageSize, Long startTime, Long endTime);
 }
