@@ -24,10 +24,10 @@ target/
 hs_err_pid*
 
 #resources
-/pinyougou-manager-web/src/main/resources/spring/spring-producer.xml
-/pinyougou-page-service/src/main/resources/spring/spring-consumer.xml
-/pinyougou-seckill-service/src/main/resources/spring/spring-consumer.xml
-/pinyougou-seckill-service/src/main/resources/spring/spring-producer.xml
-/pinyougou-user-service/src/main/resources/spring/spring-mq-sms-producer.xml
-/pniyougou-search-service/src/main/resources/spring/spring-consumer.xml
-/pniyougou-search-service/src/main/resources/spring/spring-es.xml
+#/pinyougou-manager-web/src/main/resources/spring/spring-producer.xml
+#/pinyougou-page-service/src/main/resources/spring/spring-consumer.xml
+#/pinyougou-seckill-service/src/main/resources/spring/spring-consumer.xml
+#/pinyougou-seckill-service/src/main/resources/spring/spring-producer.xml
+#/pinyougou-user-service/src/main/resources/spring/spring-mq-sms-producer.xml
+#/pniyougou-search-service/src/main/resources/spring/spring-consumer.xml
+#/pniyougou-search-service/src/main/resources/spring/spring-es.xml
